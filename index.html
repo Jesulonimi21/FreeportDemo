@@ -97,7 +97,7 @@
        
         console.log(txgroup);
         console.log(signedTxn1);
-        let signed = [signedTxn0,signedTxn1[0],signedTxn2[0],signedTxn3[0],signedTxn4[0],signedTxn5[0],signedTxn6[0],signedTxn7[0],signedTxn8[0],signedTxn9[0]]
+        let signed = [signedTxn0.blob,signedTxn1[0].blob,signedTxn2[0].blob,signedTxn3[0].blob,signedTxn4[0].blob,signedTxn5[0].blob,signedTxn6[0].blob,signedTxn7[0].blob,signedTxn8[0].blob,signedTxn9[0].blob]
         console.log(signed);
         let tx = (await client.sendRawTransaction(signed).do());
         console.log("Transaction : " + tx.txId);
