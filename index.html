@@ -1,0 +1,133 @@
+<html>
+    <head>
+        <title>Freeport Demp</title>
+        <script src="https://unpkg.com/algosdk@latest"></script>
+        <script src="./buffer.js"></script>
+       
+    </head>
+
+    <body>
+        <button id="pay">Pay</button>
+    </body>
+
+    <script>
+       if (typeof AlgoSigner !== 'undefined') {
+  console.log('AlgoSigner is installed.');
+    
+} else {
+  console.log('AlgoSigner is NOT installed.');
+};
+        // console.log(algosdk.AlgoSigner)
+            let button = document.getElementById("pay");
+            const token = { 'X-API-Key':'ADRySlL0NK5trzqZGAE3q1xxIqlQdSfk1nbHxTNe'};
+            const server = "https://testnet-algorand.api.purestake.io/ps2";
+            const port = '';
+            const client = new algosdk.Algodv2(token, server, port);
+           var recoveredAccount1 = algosdk.mnemonicToSecretKey("portion never forward pill lunch organ biology" +
+    " weird catch curve isolate plug innocent skin grunt" +
+    " bounce clown mercy hole eagle soul chunk type absorb trim");
+
+    var recoveredAccount2=algosdk.mnemonicToSecretKey("someone film pipe helmet buzz boy modify police craft price gun service home dismiss lizard monitor outer spawn promote mimic business okay position abstract aisle")
+  
+    var assetSenderAccount = algosdk.mnemonicToSecretKey("minute trash federal edit extra symptom total wish ancient sing mechanic bid sense only flower live together venue bench consider say track rubber ability shed");
+            console.log(recoveredAccount1) 
+            console.log(buffer.Buffer)
+            let Buffer = buffer.Buffer
+            let note = new Uint8Array(Buffer.from("","base64"));
+            button.addEventListener("click",async function(){
+             await    AlgoSigner.connect();
+    let program = new Uint8Array(Buffer.from("AyAEkE4KBsTG0QczACAyAxIzASAyAxIQMwIgMgMSEDMACTIDEhAzAQkyAxIQMwIJMgMSEDMAFTIDEhAzARUyAxIQMwIVMgMSEDEBIg4QMgQjDxAzAhAkEhAzAhglEhA=","base64"))
+    const lsig = algosdk.makeLogicSig(program);   
+    console.log(lsig.address());
+    // let rawSignedTxn = algosdk.signLogicSigTransactionObject(xtxn, lsig)
+                console.log(await client.status().do());
+                console.log("Clicked");
+                  //transaction 1 to send asset
+        var assetSendTxn = await  sendAsset(16016195,assetSenderAccount.addr,recoveredAccount2.addr,1,client);
+    // transaction 2 to send  30% of the asset
+        var epochTrans = await sendFunds(recoveredAccount2,"6OQQDT3FI2FY4TY6XFW7I7QFTSTQWH2TP3AF5U3W42TR6SMQPXEJX7TZAA",300000,client)
+    //transaction 3 to make the application call
+        var appCallTxn = await makeApplicationCallTransaction(recoveredAccount2.addr,16016196,[])
+    // transaction 4 to 10 to send the funds to the remaining ten addresses
+        var royaltyTransaction1 = await sendFunds(recoveredAccount2,'BN5DMMUOAJCR4SZUGPK3ICQFZ3JXSS24GWDY2B6P56K2SH4EADO6XN56GQ',100000);
+        var royaltyTransaction2 = await sendFunds(recoveredAccount2,'DG5UXOMPCEPT2SKQ4UJMRNEYDCOABYM3EFR4UW6E3OXF2ME2LF5APS5KLA',100000);
+        var royaltyTransaction3 = await sendFunds(recoveredAccount2,'DQIEID66TVX55BYECL7UUPIB2OE5ZQGNMFDLE7HRQDNGLTG3UXRBBXOWF4',100000);
+        var royaltyTransaction4 = await sendFunds(recoveredAccount2,'EJKLHQS5GRXAKEY2U62YIFBSZPMVTDPL6EQD7XKNN7A33Z7XSYPUCMOODQ',100000);
+        var royaltyTransaction5 = await sendFunds(recoveredAccount2,'F5N2DN7KIX5EL646GMGV4AQVZHGQJBEIFJR3FEIDVAZP7RGUTBU7LGRRO4',100000);
+        var royaltyTransaction6 = await sendFunds(recoveredAccount2,'JYURMSAFWF3BFC6ZJ2WXNQFHBKZONXSVLB6GIH3EH4ZA7Y4PPITDZYVDXU',100000);
+        var royaltyTransaction7 = await sendFunds(recoveredAccount2,'VEKJYW4IIOKGVBI67S5VDQB7ZOHPGJPLRXMI2GG53BAYTB6MZA27S4ALQA',100000);
+        let txns = [assetSendTxn,epochTrans,appCallTxn,royaltyTransaction1,royaltyTransaction2,royaltyTransaction3,royaltyTransaction4,royaltyTransaction5,royaltyTransaction6,royaltyTransaction7]
+        let txgroup = algosdk.assignGroupID(txns);
+
+        let signedTxn0 = algosdk.signLogicSigTransactionObject(assetSendTxn, lsig)
+        // let signedTxn0 = algosdk.signTransaction(assetSendTxn, assetSenderAccount.sk);  
+        let signedTxn1 = algosdk.signTransaction(epochTrans, recoveredAccount2.sk);
+        let signedTxn2 = algosdk.signTransaction(appCallTxn,recoveredAccount2.sk);
+        let signedTxn3 = algosdk.signTransaction(royaltyTransaction1,recoveredAccount2.sk);
+        let signedTxn4 = algosdk.signTransaction(royaltyTransaction2,recoveredAccount2.sk);
+        let signedTxn5 = algosdk.signTransaction(royaltyTransaction3,recoveredAccount2.sk);
+        let signedTxn6 = algosdk.signTransaction(royaltyTransaction4,recoveredAccount2.sk);
+        let signedTxn7 = algosdk.signTransaction(royaltyTransaction5,recoveredAccount2.sk);
+        let signedTxn8 = algosdk.signTransaction(royaltyTransaction6,recoveredAccount2.sk);
+        let signedTxn9 = algosdk.signTransaction(royaltyTransaction7,recoveredAccount2.sk);
+       
+        console.log(txgroup);
+        let signed = [signedTxn0.blob,signedTxn1.blob,signedTxn2.blob,signedTxn3.blob,signedTxn4.blob,signedTxn5.blob,signedTxn6.blob,signedTxn7.blob,signedTxn8.blob,signedTxn9.blob]
+        let tx = (await client.sendRawTransaction(signed).do());
+        console.log("Transaction : " + tx.txId);
+
+        // Wait for transaction to be confirmed
+        // await waitForConfirmation(algodClient, tx.txId)
+        // console.log("Confirmed");
+    })
+
+
+            async function sendAsset(assetID,sender,recipient, units,algodClient){   
+
+                params = await algodClient.getTransactionParams().do();
+                //comment out the next two lines to use suggested fee
+                params.fee = 1000;
+                params.flatFee = true;
+
+                // sender =  recoveredAccount1;
+                revocationTarget = assetSenderAccount.addr;
+                closeRemainderTo = undefined;
+                //Amount of the asset to transfer
+                amount = units;
+
+                // signing and sending "txn" will send "amount" assets from "sender" to "recipient"
+                let xtxn = algosdk.makeAssetTransferTxnWithSuggestedParams("XA5WEWCKTSR246S7I566J7NLGSBH24QUUAWYOSMBBZOI2DQDFHUB2GO2RU", recipient, closeRemainderTo, revocationTarget,
+                        amount,  note, assetID, params);
+                let program = new Uint8Array(Buffer.from("AyAEkE4KBsTG0QczACAyAxIzASAyAxIQMwIgMgMSEDMACTIDEhAzAQkyAxIQMwIJMgMSEDMAFTIDEhAzARUyAxIQMwIVMgMSEDEBIg4QMgQjDxAzAhAkEhAzAhglEhA=","base64"))
+                const lsig = algosdk.makeLogicSig(program);   
+               console.log(lsig.address());
+                // let rawSignedTxn = algosdk.signLogicSigTransactionObject(xtxn, lsig)
+                return xtxn;
+            }
+
+            async function sendFunds(sender,receiver,amount){
+                let params = await client.getTransactionParams().do();
+                let txn = algosdk.makePaymentTxnWithSuggestedParams(sender.addr,receiver,amount,undefined,undefined,params)
+                // {
+                //     "from": sender.addr,
+                //     "to": receiver,
+                //     "amount": amount,
+                //     "fee": params.fee,
+                //     "firstRound": params.firstRound,
+                //     "lastRound": params.lastRound,
+                //     "genesisID": params.genesisID,
+                //     "genesisHash": params.genesisHash,
+                //     "note": new Uint8Array(0),
+                // };
+
+                // let signedTxn = algosdk.signTransaction(txn, sender.sk);
+                return txn;
+            }
+
+            async function makeApplicationCallTransaction(sender,appId,appArgs){
+                let params = await client.getTransactionParams().do();
+                let txn = algosdk.makeApplicationNoOpTxn(sender, params, appId, appArgs)
+                return txn;
+            }
+    </script>
+</html>
