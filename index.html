@@ -97,7 +97,7 @@
        
         console.log(txgroup);
         console.log(signedTxn1);
-        let signed = [signedTxn0.blob,signedTxn1[0].blob,signedTxn2[0].blob,signedTxn3[0].blob,signedTxn4[0].blob,signedTxn5[0].blob,signedTxn6[0].blob,signedTxn7[0].blob,signedTxn8[0].blob,signedTxn9[0].blob]
+        let signed = [signedTxn0.blob,AlgoSigner.encoding.base64ToMsgpack(signedTxn1[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn2[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn3[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn4[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn5[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn6[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn7[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn8[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn9[0].blob)]
         console.log(signed);
         let tx = (await client.sendRawTransaction(signed).do());
         console.log("Transaction : " + tx.txId);
