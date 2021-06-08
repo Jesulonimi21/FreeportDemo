@@ -12,62 +12,52 @@
 
     <script>
         window.addEventListener('load',async function(){
-            var addresses = []
-    var addressToUse;
-    console.log("Sood");
-       if (typeof AlgoSigner !== 'undefined') {
-  console.log('AlgoSigner is installed.');
-  AlgoSigner.connect();
-  addresses = await AlgoSigner.accounts({ ledger: 'TestNet' });
-  addressToUse = prompt("Enter desired Address");
-
-  var addressFound = 0;
-  console.log(addresses)
-  addresses.map((el)=>{
-
-      if(el.address==addressToUse){
-        addressFound = 1;
-      }
-
-  });
-
-  if(addressFound == 0){
-      alert("Cant find address, refresh to continue")  
-  }
-
-
-} else {
-        alert("Please install algosigner and reload page")
-        console.log('AlgoSigner is NOT installed.');
-      
-};
-        // console.log(algosdk.AlgoSigner)
-            let button = document.getElementById("pay");
+            var recoveredAccount1 = algosdk.mnemonicToSecretKey("portion never forward pill lunch organ biology" +
+            " weird catch curve isolate plug innocent skin grunt" +
+            " bounce clown mercy hole eagle soul chunk type absorb trim");
+            var recoveredAccount2=algosdk.mnemonicToSecretKey("someone film pipe helmet buzz boy modify police craft price gun service home dismiss lizard monitor outer spawn promote mimic business okay position abstract aisle")
+            var assetSenderAddress = "6OQQDT3FI2FY4TY6XFW7I7QFTSTQWH2TP3AF5U3W42TR6SMQPXEJX7TZAA"
+            let program = new Uint8Array(Buffer.from("AyAEkE4KBsTG0QczACAyAxIzASAyAxIQMwIgMgMSEDMACTIDEhAzAQkyAxIQMwIJMgMSEDMAFTIDEhAzARUyAxIQMwIVMgMSEDEBIg4QMgQjDxAzAhAkEhAzAhglEhA=","base64"))
+            const lsig = algosdk.makeLogicSig(program);   
             const token = { 'X-API-Key':'ADRySlL0NK5trzqZGAE3q1xxIqlQdSfk1nbHxTNe'};
             const server = "https://testnet-algorand.api.purestake.io/ps2";
             const port = '';
             const client = new algosdk.Algodv2(token, server, port);
-           var recoveredAccount1 = algosdk.mnemonicToSecretKey("portion never forward pill lunch organ biology" +
-    " weird catch curve isolate plug innocent skin grunt" +
-    " bounce clown mercy hole eagle soul chunk type absorb trim");
-
-    var recoveredAccount2=algosdk.mnemonicToSecretKey("someone film pipe helmet buzz boy modify police craft price gun service home dismiss lizard monitor outer spawn promote mimic business okay position abstract aisle")
-  
-    var assetSenderAccount = algosdk.mnemonicToSecretKey("minute trash federal edit extra symptom total wish ancient sing mechanic bid sense only flower live together venue bench consider say track rubber ability shed");
-            console.log(recoveredAccount1) 
-            console.log(buffer.Buffer)
             let Buffer = buffer.Buffer
             let note = new Uint8Array(Buffer.from("","base64"));
+            var addresses = []
+            var addressToUse;
+            if (typeof AlgoSigner !== 'undefined') {
+                    console.log('AlgoSigner is installed.');
+                    AlgoSigner.connect();
+                    addresses = await AlgoSigner.accounts({ ledger: 'TestNet' });
+                    addressToUse = prompt("Enter desired Address");
+
+                    var addressFound = 0;
+                    console.log(addresses)
+                    addresses.map((el)=>{
+                        if(el.address==addressToUse){
+                            addressFound = 1;
+                        }
+
+                    });
+
+                    if(addressFound == 0){
+                        alert("Cant find address, refresh to continue")  
+                    }
+        } else {
+                alert("Please install algosigner and reload page")
+                console.log('AlgoSigner is NOT installed.');
+            
+        };
+        // console.log(algosdk.AlgoSigner)
+            let button = document.getElementById("pay");
             button.addEventListener("click",async function(){
-           
-    let program = new Uint8Array(Buffer.from("AyAEkE4KBsTG0QczACAyAxIzASAyAxIQMwIgMgMSEDMACTIDEhAzAQkyAxIQMwIJMgMSEDMAFTIDEhAzARUyAxIQMwIVMgMSEDEBIg4QMgQjDxAzAhAkEhAzAhglEhA=","base64"))
-    const lsig = algosdk.makeLogicSig(program);   
-    console.log(lsig.address());
     // let rawSignedTxn = algosdk.signLogicSigTransactionObject(xtxn, lsig)
                 console.log(await client.status().do());
                 console.log("Clicked");
-                  //transaction 1 to send asset
-        var assetSendTxn = await  sendAsset(16016195,assetSenderAccount.addr,recoveredAccount2.addr,1,client);
+     //transaction 1 to send asset
+        var assetSendTxn = await  sendAsset(16016195,"6OQQDT3FI2FY4TY6XFW7I7QFTSTQWH2TP3AF5U3W42TR6SMQPXEJX7TZAA",recoveredAccount2.addr,1,client);
     // transaction 2 to send  30% of the asset
         var epochTrans = await sendFunds(recoveredAccount2,"6OQQDT3FI2FY4TY6XFW7I7QFTSTQWH2TP3AF5U3W42TR6SMQPXEJX7TZAA",300000,client)
     //transaction 3 to make the application call
@@ -108,7 +98,7 @@
     })
 
 
-            async function sendAsset(assetID,sender,recipient, units,algodClient){   
+            async function sendAsset(assetID,revocationTarget,recipient, units,algodClient){   
 
                 params = await algodClient.getTransactionParams().do();
                 //comment out the next two lines to use suggested fee
@@ -116,7 +106,7 @@
                 params.flatFee = true;
 
                 // sender =  recoveredAccount1;
-                revocationTarget = assetSenderAccount.addr;
+               
                 closeRemainderTo = undefined;
                 //Amount of the asset to transfer
                 amount = units;
