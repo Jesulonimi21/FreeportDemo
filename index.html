@@ -97,7 +97,7 @@
        
         console.log(txgroup);
         console.log(signedTxn1);
-        let signed = [signedTxn0.blob,signedTxn1[0].blob,signedTxn2[0].blob,signedTxn3[0].blob,signedTxn4[0].blob,signedTxn5[0].blob,signedTxn6[0].blob,signedTxn7[0].blob,signedTxn8[0].blob,signedTxn9[0].blob]
+        let signed = [signedTxn0,signedTxn1[0],signedTxn2[0],signedTxn3[0],signedTxn4[0],signedTxn5[0],signedTxn6[0],signedTxn7[0],signedTxn8[0],signedTxn9[0]]
         console.log(signed);
         let tx = (await client.sendRawTransaction(signed).do());
         console.log("Transaction : " + tx.txId);
@@ -133,18 +133,18 @@
 
             async function sendFunds(sender,receiver,amount){
                 let params = await client.getTransactionParams().do();
-                let txn = algosdk.makePaymentTxnWithSuggestedParams(sender.addr,receiver,amount,undefined,undefined,params)
-                // {
-                //     "from": sender.addr,
-                //     "to": receiver,
-                //     "amount": amount,
-                //     "fee": params.fee,
-                //     "firstRound": params.firstRound,
-                //     "lastRound": params.lastRound,
-                //     "genesisID": params.genesisID,
-                //     "genesisHash": params.genesisHash,
-                //     "note": new Uint8Array(0),
-                // };
+                let txn = //algosdk.makePaymentTxnWithSuggestedParams(sender.addr,receiver,amount,undefined,undefined,params)
+                {
+                    "from": sender.addr,
+                    "to": receiver,
+                    "amount": amount,
+                    "fee": params.fee,
+                    "firstRound": params.firstRound,
+                    "lastRound": params.lastRound,
+                    "genesisID": params.genesisID,
+                    "genesisHash": params.genesisHash,
+                    "note": new Uint8Array(0),
+                };
 
                 // let signedTxn = algosdk.signTransaction(txn, sender.sk);
                 return txn;
