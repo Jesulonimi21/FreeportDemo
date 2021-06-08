@@ -134,7 +134,7 @@
             async function sendFunds(sender,receiver,amount){
                 let params = await client.getTransactionParams().do();
                 let txn = //algosdk.makePaymentTxnWithSuggestedParams(sender.addr,receiver,amount,undefined,undefined,params)
-                {
+                new algosdk.transaction({
                     "from": sender.addr,
                     "to": receiver,
                     "amount": amount,
@@ -144,7 +144,7 @@
                     "genesisID": params.genesisID,
                     "genesisHash": params.genesisHash,
                     "note": new Uint8Array(0),
-                };
+                });
 
                 // let signedTxn = algosdk.signTransaction(txn, sender.sk);
                 return txn;
