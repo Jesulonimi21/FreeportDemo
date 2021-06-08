@@ -16,7 +16,18 @@
             " weird catch curve isolate plug innocent skin grunt" +
             " bounce clown mercy hole eagle soul chunk type absorb trim");
             var recoveredAccount2=algosdk.mnemonicToSecretKey("someone film pipe helmet buzz boy modify police craft price gun service home dismiss lizard monitor outer spawn promote mimic business okay position abstract aisle")
-            var assetSenderAddress = "6OQQDT3FI2FY4TY6XFW7I7QFTSTQWH2TP3AF5U3W42TR6SMQPXEJX7TZAA"
+            var asssetCreatorAddress = "6OQQDT3FI2FY4TY6XFW7I7QFTSTQWH2TP3AF5U3W42TR6SMQPXEJX7TZAA"
+            var artist1Address= "BN5DMMUOAJCR4SZUGPK3ICQFZ3JXSS24GWDY2B6P56K2SH4EADO6XN56GQ";
+            var artist2Address = "DG5UXOMPCEPT2SKQ4UJMRNEYDCOABYM3EFR4UW6E3OXF2ME2LF5APS5KLA";
+            var artist3Address= "DQIEID66TVX55BYECL7UUPIB2OE5ZQGNMFDLE7HRQDNGLTG3UXRBBXOWF4";
+            var artist4Address = "EJKLHQS5GRXAKEY2U62YIFBSZPMVTDPL6EQD7XKNN7A33Z7XSYPUCMOODQ";
+            var artist5Address = "F5N2DN7KIX5EL646GMGV4AQVZHGQJBEIFJR3FEIDVAZP7RGUTBU7LGRRO4";
+            var artist6Address = "JYURMSAFWF3BFC6ZJ2WXNQFHBKZONXSVLB6GIH3EH4ZA7Y4PPITDZYVDXU";
+            var artist7Address = "VEKJYW4IIOKGVBI67S5VDQB7ZOHPGJPLRXMI2GG53BAYTB6MZA27S4ALQA";
+            var epochClawedBackAddress = "XA5WEWCKTSR246S7I566J7NLGSBH24QUUAWYOSMBBZOI2DQDFHUB2GO2RU"
+            var epochBase64Address = "AyAEkE4KBsTG0QczACAyAxIzASAyAxIQMwIgMgMSEDMACTIDEhAzAQkyAxIQMwIJMgMSEDMAFTIDEhAzARUyAxIQMwIVMgMSEDEBIg4QMgQjDxAzAhAkEhAzAhglEhA=";
+            var artistAmount = 100000;
+            var creatorAmount = 300000;
             const token = { 'X-API-Key':'ADRySlL0NK5trzqZGAE3q1xxIqlQdSfk1nbHxTNe'};
             const server = "https://testnet-algorand.api.purestake.io/ps2";
             const port = '';
@@ -57,19 +68,19 @@
                 console.log(await client.status().do());
                 console.log("Clicked");
      //transaction 1 to send asset
-        var assetSendTxn = await  sendAsset(16016195,"6OQQDT3FI2FY4TY6XFW7I7QFTSTQWH2TP3AF5U3W42TR6SMQPXEJX7TZAA",recoveredAccount2.addr,1,client);
+        var assetSendTxn = await  sendAsset(16016195,asssetCreatorAddress,recoveredAccount2.addr,1,client);
     // transaction 2 to send  30% of the asset
-        var epochTrans = await sendFunds(recoveredAccount2,"6OQQDT3FI2FY4TY6XFW7I7QFTSTQWH2TP3AF5U3W42TR6SMQPXEJX7TZAA",300000,client)
+        var epochTrans = await sendFunds(recoveredAccount2,asssetCreatorAddress,creatorAmount,client)
     //transaction 3 to make the application call
         var appCallTxn = await makeApplicationCallTransaction(recoveredAccount2.addr,16016196,[])
     // transaction 4 to 10 to send the funds to the remaining ten addresses
-        var royaltyTransaction1 = await sendFunds(recoveredAccount2,'BN5DMMUOAJCR4SZUGPK3ICQFZ3JXSS24GWDY2B6P56K2SH4EADO6XN56GQ',100000);
-        var royaltyTransaction2 = await sendFunds(recoveredAccount2,'DG5UXOMPCEPT2SKQ4UJMRNEYDCOABYM3EFR4UW6E3OXF2ME2LF5APS5KLA',100000);
-        var royaltyTransaction3 = await sendFunds(recoveredAccount2,'DQIEID66TVX55BYECL7UUPIB2OE5ZQGNMFDLE7HRQDNGLTG3UXRBBXOWF4',100000);
-        var royaltyTransaction4 = await sendFunds(recoveredAccount2,'EJKLHQS5GRXAKEY2U62YIFBSZPMVTDPL6EQD7XKNN7A33Z7XSYPUCMOODQ',100000);
-        var royaltyTransaction5 = await sendFunds(recoveredAccount2,'F5N2DN7KIX5EL646GMGV4AQVZHGQJBEIFJR3FEIDVAZP7RGUTBU7LGRRO4',100000);
-        var royaltyTransaction6 = await sendFunds(recoveredAccount2,'JYURMSAFWF3BFC6ZJ2WXNQFHBKZONXSVLB6GIH3EH4ZA7Y4PPITDZYVDXU',100000);
-        var royaltyTransaction7 = await sendFunds(recoveredAccount2,'VEKJYW4IIOKGVBI67S5VDQB7ZOHPGJPLRXMI2GG53BAYTB6MZA27S4ALQA',100000);
+        var royaltyTransaction1 = await sendFunds(recoveredAccount2,artist1Address,artistAmount);
+        var royaltyTransaction2 = await sendFunds(recoveredAccount2,artist2Address,artistAmount);
+        var royaltyTransaction3 = await sendFunds(recoveredAccount2,artist3Address,artistAmount);
+        var royaltyTransaction4 = await sendFunds(recoveredAccount2,artist4Address,artistAmount);
+        var royaltyTransaction5 = await sendFunds(recoveredAccount2,artist5Address,artistAmount);
+        var royaltyTransaction6 = await sendFunds(recoveredAccount2,artist6Address,artistAmount);
+        var royaltyTransaction7 = await sendFunds(recoveredAccount2,artist7Address,artistAmount);
         let txns = [assetSendTxn,epochTrans,appCallTxn,royaltyTransaction1,royaltyTransaction2,royaltyTransaction3,royaltyTransaction4,royaltyTransaction5,royaltyTransaction6,royaltyTransaction7]
         let txgroup = algosdk.assignGroupID(txns);
 
@@ -112,9 +123,9 @@
                 amount = units;
 
                 // signing and sending "txn" will send "amount" assets from "sender" to "recipient"
-                let xtxn = algosdk.makeAssetTransferTxnWithSuggestedParams("XA5WEWCKTSR246S7I566J7NLGSBH24QUUAWYOSMBBZOI2DQDFHUB2GO2RU", recipient, closeRemainderTo, revocationTarget,
+                let xtxn = algosdk.makeAssetTransferTxnWithSuggestedParams(epochClawedBackAddress, recipient, closeRemainderTo, revocationTarget,
                         amount,  note, assetID, params);
-                let program = new Uint8Array(Buffer.from("AyAEkE4KBsTG0QczACAyAxIzASAyAxIQMwIgMgMSEDMACTIDEhAzAQkyAxIQMwIJMgMSEDMAFTIDEhAzARUyAxIQMwIVMgMSEDEBIg4QMgQjDxAzAhAkEhAzAhglEhA=","base64"))
+                let program = new Uint8Array(Buffer.from(epochClawedBackAddress,"base64"))
                 const lsig = algosdk.makeLogicSig(program);   
                console.log(lsig.address());
                 // let rawSignedTxn = algosdk.signLogicSigTransactionObject(xtxn, lsig)
