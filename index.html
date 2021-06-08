@@ -11,9 +11,10 @@
     </body>
 
     <script>
-        document.addEventListener('load',async function(){
+        window.addEventListener('load',async function(){
             var addresses = []
     var addressToUse;
+    console.log("Sood");
        if (typeof AlgoSigner !== 'undefined') {
   console.log('AlgoSigner is installed.');
   AlgoSigner.connect();
