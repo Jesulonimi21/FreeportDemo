@@ -134,7 +134,7 @@
             async function sendFunds(sender,receiver,amount){
                 let params = await client.getTransactionParams().do();
                 let txn = //algosdk.makePaymentTxnWithSuggestedParams(sender.addr,receiver,amount,undefined,undefined,params)
-                new algosdk.transaction({
+                new algosdk.Transaction({
                     "from": sender.addr,
                     "to": receiver,
                     "amount": amount,
