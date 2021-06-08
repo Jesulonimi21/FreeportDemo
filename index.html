@@ -21,21 +21,21 @@
   addressToUse = prompt("Enter desired Address");
 
   var adressFound = 0;
-  
-  addresses.map((el)=>{
+  console.log(addresses)
+//   addresses.map((el)=>{
 
-      if(el.address==addressToUse){
-        adressFound =1;
-      }
+//       if(el.address==addressToUse){
+//         adressFound =1;
+//       }
 
-  });
+//   });
 
   if(addressFound == 0){
       alert("Cant find address, refresh to continue")
       
   }
 
-  console.log(addresses)
+
 } else {
         alert("Please install algosigner and reload page")
         console.log('AlgoSigner is NOT installed.');
