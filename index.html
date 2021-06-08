@@ -11,11 +11,35 @@
     </body>
 
     <script>
+
+    var addresses = []
+    var addressToUse;
        if (typeof AlgoSigner !== 'undefined') {
   console.log('AlgoSigner is installed.');
-    
+  AlgoSigner.connect();
+  addresses = AlgoSigner.accounts({ ledger: 'TestNet' });
+  addressToUse = prompt("Enter desired Address");
+
+  var adressFound = 0;
+  
+  addresses.map((el)=>{
+
+      if(el.address==addressToUse){
+        adressFound =1;
+      }
+
+  })
+
+  if(addressFound ==0){
+      alert("Cant find address, refresh to continue")
+      return;
+  }
+
+  console.log(addresses)
 } else {
-  console.log('AlgoSigner is NOT installed.');
+        alert("Please install algosigner and reload page")
+        console.log('AlgoSigner is NOT installed.');
+        return;
 };
         // console.log(algosdk.AlgoSigner)
             let button = document.getElementById("pay");
@@ -35,7 +59,7 @@
             let Buffer = buffer.Buffer
             let note = new Uint8Array(Buffer.from("","base64"));
             button.addEventListener("click",async function(){
-             await    AlgoSigner.connect();
+           
     let program = new Uint8Array(Buffer.from("AyAEkE4KBsTG0QczACAyAxIzASAyAxIQMwIgMgMSEDMACTIDEhAzAQkyAxIQMwIJMgMSEDMAFTIDEhAzARUyAxIQMwIVMgMSEDEBIg4QMgQjDxAzAhAkEhAzAhglEhA=","base64"))
     const lsig = algosdk.makeLogicSig(program);   
     console.log(lsig.address());
