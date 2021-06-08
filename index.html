@@ -85,18 +85,19 @@
 
         let signedTxn0 = algosdk.signLogicSigTransactionObject(assetSendTxn, lsig)
         // let signedTxn0 = algosdk.signTransaction(assetSendTxn, assetSenderAccount.sk);  
-        let signedTxn1 = await AlgoSigner.signTxn([{txn:epochTrans}])[0]   //algosdk.signTransaction(epochTrans, recoveredAccount2.sk);
-        let signedTxn2 =  await AlgoSigner.signTxn([{txn:appCallTxn}])[0]  //algosdk.signTransaction(appCallTxn,recoveredAccount2.sk);
-        let signedTxn3 =  await AlgoSigner.signTxn([{txn:royaltyTransaction1}])[0] // algosdk.signTransaction(royaltyTransaction1,recoveredAccount2.sk);
-        let signedTxn4 =  await AlgoSigner.signTxn([{txn:royaltyTransaction2}])[0]  //algosdk.signTransaction(royaltyTransaction2,recoveredAccount2.sk);
-        let signedTxn5 =   await AlgoSigner.signTxn([{txn:royaltyTransaction3}])[0] //algosdk.signTransaction(royaltyTransaction3,recoveredAccount2.sk);
-        let signedTxn6 =  await AlgoSigner.signTxn([{txn:royaltyTransaction4}])[0] //algosdk.signTransaction(royaltyTransaction4,recoveredAccount2.sk);
-        let signedTxn7 =  await AlgoSigner.signTxn([{txn:royaltyTransaction5}])[0] //algosdk.signTransaction(royaltyTransaction5,recoveredAccount2.sk);
-        let signedTxn8 =  await AlgoSigner.signTxn([{txn:royaltyTransaction6}])[0] //algosdk.signTransaction(royaltyTransaction6,recoveredAccount2.sk);
-        let signedTxn9 =  await AlgoSigner.signTxn([{txn:royaltyTransaction7}])[0] //algosdk.signTransaction(royaltyTransaction7,recoveredAccount2.sk);
+        let signedTxn1 = await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(epochTrans.toByte())}])[0]   //algosdk.signTransaction(epochTrans, recoveredAccount2.sk);
+        let signedTxn2 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(appCallTxn.toByte())}])[0]  //algosdk.signTransaction(appCallTxn,recoveredAccount2.sk);
+        let signedTxn3 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction1.toByte())}])[0] // algosdk.signTransaction(royaltyTransaction1,recoveredAccount2.sk);
+        let signedTxn4 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction2.toByte())}])[0]  //algosdk.signTransaction(royaltyTransaction2,recoveredAccount2.sk);
+        let signedTxn5 =   await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction3.toByte())}])[0] //algosdk.signTransaction(royaltyTransaction3,recoveredAccount2.sk);
+        let signedTxn6 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction4.toByte())}])[0] //algosdk.signTransaction(royaltyTransaction4,recoveredAccount2.sk);
+        let signedTxn7 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction5.toByte())}])[0] //algosdk.signTransaction(royaltyTransaction5,recoveredAccount2.sk);
+        let signedTxn8 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction6.toByte())}])[0] //algosdk.signTransaction(royaltyTransaction6,recoveredAccount2.sk);
+        let signedTxn9 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction7.toByte())}])[0] //algosdk.signTransaction(royaltyTransaction7,recoveredAccount2.sk);
        
         console.log(txgroup);
         let signed = [signedTxn0.blob,signedTxn1.blob,signedTxn2.blob,signedTxn3.blob,signedTxn4.blob,signedTxn5.blob,signedTxn6.blob,signedTxn7.blob,signedTxn8.blob,signedTxn9.blob]
+        console.log(signed);
         let tx = (await client.sendRawTransaction(signed).do());
         console.log("Transaction : " + tx.txId);
 
