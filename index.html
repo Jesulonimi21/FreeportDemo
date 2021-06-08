@@ -123,9 +123,9 @@
                 amount = units;
 
                 // signing and sending "txn" will send "amount" assets from "sender" to "recipient"
-                let xtxn = algosdk.makeAssetTransferTxnWithSuggestedParams(epochBase64Address, recipient, closeRemainderTo, revocationTarget,
+                let xtxn = algosdk.makeAssetTransferTxnWithSuggestedParams(epochClawedBackAddress, recipient, closeRemainderTo, revocationTarget,
                         amount,  note, assetID, params);
-                let program = new Uint8Array(Buffer.from(epochClawedBackAddress,"base64"))
+                let program = new Uint8Array(Buffer.from(epochBase64Address,"base64"))
                 const lsig = algosdk.makeLogicSig(program);   
                console.log(lsig.address());
                 // let rawSignedTxn = algosdk.signLogicSigTransactionObject(xtxn, lsig)
