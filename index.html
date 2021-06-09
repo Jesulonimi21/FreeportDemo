@@ -292,7 +292,7 @@ let signedTxn0 = algosdk.signLogicSigTransactionObject(assetSendTxn, lsig)
 let signedTxns = await AlgoSigner.signTxn([
 {
     txn:AlgoSigner.encoding.msgpackToBase64(assetSendTxn.toByte()),
-    signers:null
+    signers:['EHRODOBUE7R5SRM57CVMP77DQJOK6SDZSUV5FMTFIEW57JCGN2N6OL5I3M']
   },
   {
     txn:AlgoSigner.encoding.msgpackToBase64(epochTrans.toByte())
