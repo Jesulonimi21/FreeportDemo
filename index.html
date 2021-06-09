@@ -216,10 +216,12 @@ console.log(signed);
 let tx = (await client.sendRawTransaction(signed).do());
 console.log("Transaction : " + tx.txId);
 if(tx.txId!=null&&tx.txId!=undefined){
-    body.removeChild(parentDiv);
+    infoP.innerText="Transaction successfull with Txid: "+ tx.txId;
    alert("Transaction successfull with Txid: "+ tx.txId );
+   body.removeChild(parentDiv);
 }else{
      alert("Transaction Failed");
+     body.removeChild(parentDiv);
 }
 
 // Wait for transaction to be confirmed
