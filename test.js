@@ -1,105 +1,4 @@
-<html>
-    <head>
-        <title>Freeport Demp</title>
-        <script src="https://unpkg.com/algosdk@latest"></script>
-        <script src="./buffer.js"></script>
-       
-        <style>
-            .algoLoader {
-                color: #000000;
-                font-size: 20px;
-                margin: 100px auto;
-                width: 1em;
-                height: 1em;
-                border-radius: 50%;
-                position: relative;
-                text-indent: -9999em;
-                -webkit-animation: load4 1.3s infinite linear;
-                animation: load4 1.3s infinite linear;
-                -webkit-transform: translateZ(0);
-                -ms-transform: translateZ(0);
-                transform: translateZ(0);
-}
-@-webkit-keyframes load4 {
-  0%,
-  100% {
-    box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
-  }
-  12.5% {
-    box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
-  }
-  25% {
-    box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
-  }
-  37.5% {
-    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
-  }
-  50% {
-    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
-  }
-  62.5% {
-    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
-  }
-  75% {
-    box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
-  }
-  87.5% {
-    box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
-  }
-}
-@keyframes load4 {
-  0%,
-  100% {
-    box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
-  }
-  12.5% {
-    box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
-  }
-  25% {
-    box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
-  }
-  37.5% {
-    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
-  }
-  50% {
-    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
-  }
-  62.5% {
-    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
-  }
-  75% {
-    box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
-  }
-  87.5% {
-    box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
-  }
-}
-
-            .algoCardContainer{
-                border: solid 2px #ccc;
-                width: 40%;
-                height:400px;
-                position: absolute;
-                left:30%;
-                top:25%;
-            }
-            .algoInfoText{
-                text-align: center;
-            }
-        </style>
-    </head>
-
-    <body>
-        <button id="acquireNft">Pay</button>
-<!-- 
-        <div class="algoCardContainer">
-            <div class="algoLoader"></div>
-            <p class="algoInfoText">NFT Acquisition in Progress,please respond to Algosiogner Appropriatey</p>
-        </div> -->
-    </body>
-
-    <script>
-      window.addEventListener('load',async function(){
+window.addEventListener('load',async function(){
     var recoveredAccount1 = algosdk.mnemonicToSecretKey("portion never forward pill lunch organ biology" +
     " weird catch curve isolate plug innocent skin grunt" +
     " bounce clown mercy hole eagle soul chunk type absorb trim");
@@ -131,20 +30,6 @@
     let button = document.getElementById("acquireNft");
     button.addEventListener("click",async function(){
         console.log("Clicked");
-        var x = document.getElementsByTagName("body");
-        console.log(x[0]);
-        let body = x[0];
-        let parentDiv = document.createElement("div");
-        parentDiv.classList.add("algoCardContainer")
-        let algoLoaderDiv = document.createElement("div");
-        algoLoaderDiv.classList.add("algoLoader");
-
-        let infoP= document.createElement("P");
-        infoP.classList.add("algoInfoText");
-        infoP.innerText="NFT Acquisition in Progress,please respond to Algosiogner Appropriatey";
-        parentDiv.append(algoLoaderDiv);
-        parentDiv.append(infoP);
-        body.append(parentDiv)
 // let rawSignedTxn = algosdk.signLogicSigTransactionObject(xtxn, lsig)
 if (typeof AlgoSigner !== 'undefined') {
     console.log('AlgoSigner is installed.');
@@ -176,10 +61,8 @@ if (typeof AlgoSigner !== 'undefined') {
 let optInTxn = await optInAddress(16054095,recoveredAccount2.addr);
 let signedOptTxn = await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(optInTxn.toByte())}]); 
 let binarySignedTx = AlgoSigner.encoding.base64ToMsgpack(signedOptTxn[0].blob);
-infoP.innerText="Opting Users Address to NFT"
 await client.sendRawTransaction(binarySignedTx).do();
 console.log("sent opt in transaction")
-infoP.innerText="Users Address Opted In to NFT"
 //transaction 1 to send asset
 var assetSendTxn = await  sendAsset(16054095,asssetCreatorAddress,recoveredAccount2.addr,1,client);
 // transaction 2 to send  30% of the asset
@@ -215,12 +98,6 @@ let signed = [signedTxn0.blob,AlgoSigner.encoding.base64ToMsgpack(signedTxn1[0].
 console.log(signed);
 let tx = (await client.sendRawTransaction(signed).do());
 console.log("Transaction : " + tx.txId);
-if(tx.txId!=null&&tx.txId!=undefined){
-    body.removeChild(parentDiv);
-   alert("Transaction successfull with Txid: "+ tx.txId );
-}else{
-     alert("Transaction Failed");
-}
 
 // Wait for transaction to be confirmed
 // await waitForConfirmation(algodClient, tx.txId)
@@ -299,6 +176,3 @@ if(tx.txId!=null&&tx.txId!=undefined){
 
     }
 });
-  
-    </script>
-</html>
