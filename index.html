@@ -289,7 +289,7 @@ let txgroup = algosdk.assignGroupID(txns);
  
 let signedTxn0 = algosdk.signLogicSigTransactionObject(assetSendTxn, lsig)
 
-let signedTxns = await AlgoSigner.signTxn([
+let signedTxns =  AlgoSigner.signTxn([
 {
     txn:AlgoSigner.encoding.msgpackToBase64(assetSendTxn.toByte()),
     signers:['EHRODOBUE7R5SRM57CVMP77DQJOK6SDZSUV5FMTFIEW57JCGN2N6OL5I3M']
@@ -321,7 +321,15 @@ let signedTxns = await AlgoSigner.signTxn([
   {
     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction7.toByte())
   },
-])
+]).then((el)=>{
+  console.log("In Result");
+  console.log(el);
+}).catch((error)=>{
+  console.error(error)
+})
+
+
+return;
 console.log(signedTxns)
 let blobs = signedTxns.map((el,index)=>{
   if(index!=0){
