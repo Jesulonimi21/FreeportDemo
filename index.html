@@ -286,14 +286,14 @@ var royaltyTransaction6 = await sendFunds(recoveredAccount2,artist6Address,artis
 var royaltyTransaction7 = await sendFunds(recoveredAccount2,artist7Address,artistAmount);
 let txns = [assetSendTxn,epochTrans,appCallTxn,royaltyTransaction1,royaltyTransaction2,royaltyTransaction3,royaltyTransaction4,royaltyTransaction5,royaltyTransaction6,royaltyTransaction7]
 let txgroup = algosdk.assignGroupID(txns);
-
+ 
 let signedTxn0 = algosdk.signLogicSigTransactionObject(assetSendTxn, lsig)
 
 let signedTxns = await AlgoSigner.signTxn([
-{
-    txn:AlgoSigner.encoding.msgpackToBase64(assetSendTxn.toByte()),
-    signers:[recoveredAccount2.addr]
-  },
+// {
+//     txn:AlgoSigner.encoding.msgpackToBase64(assetSendTxn.toByte()),
+//     signers:[recoveredAccount2.addr]
+//   },
   {
     txn:AlgoSigner.encoding.msgpackToBase64(epochTrans.toByte())
   },
@@ -323,7 +323,7 @@ let signedTxns = await AlgoSigner.signTxn([
   },
 ])
 console.log(signedTxns)
-let blobs = signedTxns.map((e,index)=>{
+let blobs = signedTxns.map((el,index)=>{
   if(index!=0){
     return  AlgoSigner.encoding.base64ToMsgpack(el.blob)
   }
