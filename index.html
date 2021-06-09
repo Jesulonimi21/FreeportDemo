@@ -17,15 +17,15 @@
             " bounce clown mercy hole eagle soul chunk type absorb trim");
             var recoveredAccount2=algosdk.mnemonicToSecretKey("someone film pipe helmet buzz boy modify police craft price gun service home dismiss lizard monitor outer spawn promote mimic business okay position abstract aisle")
             var asssetCreatorAddress = "6OQQDT3FI2FY4TY6XFW7I7QFTSTQWH2TP3AF5U3W42TR6SMQPXEJX7TZAA"
-            var artist1Address= "BN5DMMUOAJCR4SZUGPK3ICQFZ3JXSS24GWDY2B6P56K2SH4EADO6XN56GQ";
-            var artist2Address = "DG5UXOMPCEPT2SKQ4UJMRNEYDCOABYM3EFR4UW6E3OXF2ME2LF5APS5KLA";
-            var artist3Address= "DQIEID66TVX55BYECL7UUPIB2OE5ZQGNMFDLE7HRQDNGLTG3UXRBBXOWF4";
-            var artist4Address = "EJKLHQS5GRXAKEY2U62YIFBSZPMVTDPL6EQD7XKNN7A33Z7XSYPUCMOODQ";
-            var artist5Address = "F5N2DN7KIX5EL646GMGV4AQVZHGQJBEIFJR3FEIDVAZP7RGUTBU7LGRRO4";
-            var artist6Address = "JYURMSAFWF3BFC6ZJ2WXNQFHBKZONXSVLB6GIH3EH4ZA7Y4PPITDZYVDXU";
-            var artist7Address = "VEKJYW4IIOKGVBI67S5VDQB7ZOHPGJPLRXMI2GG53BAYTB6MZA27S4ALQA";
-            var epochClawedBackAddress = "XA5WEWCKTSR246S7I566J7NLGSBH24QUUAWYOSMBBZOI2DQDFHUB2GO2RU"
-            var epochBase64Address = "AyAEkE4KBsTG0QczACAyAxIzASAyAxIQMwIgMgMSEDMACTIDEhAzAQkyAxIQMwIJMgMSEDMAFTIDEhAzARUyAxIQMwIVMgMSEDEBIg4QMgQjDxAzAhAkEhAzAhglEhA=";
+            var artist1Address= "YGCKHAG4H3WDUQSAY5J4MK5ZIWLGIF7W6ZYO5EZY3OGZJB5FWGDNBX7BUA";
+            var artist2Address = "IKEPBSW7RSPN4TXYC3AV6FOOGZ6PJLTJKEB2PVCTPSRFNB3CANZ5JJRZPY";
+            var artist3Address= "2FSBHE3XAXJHBFFUABPPBBU3ZL4PQAHI6BB3KTHJKL5IZCC7BG4LR6GRT4";
+            var artist4Address = "UONII5HLZPHGDCBCETVTFGX42I5MJWEYKM5NUIFQW3A47CSDIHZN74AYUA";
+            var artist5Address = "EMMEIOWLZPMUCXSLGB5QOR33HCQZAQT6KSRGCXHBO54W7LNLQCJXSGJ4IQ";
+            var artist6Address = "UNH443RNFL4NWFCP5AI3N34C6IK6SWDEPZRLFKXGWYTXBZ5BTLJJLGWLRQ";
+            var artist7Address = "QPNWTRS3FLRUICYYLVPQV7QZIJPBNM2EV6S5BF6JOFQL7DGCLU5HKQSUK4";
+            var epochClawedBackAddress = "HFIVTRXQDWXAK5KLDFUXTPIB4CZGYUVCACNI3R6VA7PZ3OIO3DDDQQKHCA"
+            var epochBase64Address = "AyAEkE4KBtDu0wczACAyAxIzASAyAxIQMwIgMgMSEDMACTIDEhAzAQkyAxIQMwIJMgMSEDMAFTIDEhAzARUyAxIQMwIVMgMSEDEBIg4QMgQjDxAzAhAkEhAzAhglEhA=";
             var artistAmount = 100000;
             var creatorAmount = 300000;
             const token = { 'X-API-Key':'ADRySlL0NK5trzqZGAE3q1xxIqlQdSfk1nbHxTNe'};
@@ -33,7 +33,7 @@
             const port = '';
             const client = new algosdk.Algodv2(token, server, port);
             let Buffer = buffer.Buffer
-            let program = new Uint8Array(Buffer.from("AyAEkE4KBsTG0QczACAyAxIzASAyAxIQMwIgMgMSEDMACTIDEhAzAQkyAxIQMwIJMgMSEDMAFTIDEhAzARUyAxIQMwIVMgMSEDEBIg4QMgQjDxAzAhAkEhAzAhglEhA=","base64"))
+            let program = new Uint8Array(Buffer.from(epochBase64Address,"base64"))
             const lsig = algosdk.makeLogicSig(program);   
             let note = new Uint8Array(Buffer.from("","base64"));
             var addresses = []
@@ -68,11 +68,11 @@
                 console.log(await client.status().do());
                 console.log("Clicked");
      //transaction 1 to send asset
-        var assetSendTxn = await  sendAsset(16016195,asssetCreatorAddress,recoveredAccount2.addr,1,client);
+        var assetSendTxn = await  sendAsset(16054095,asssetCreatorAddress,recoveredAccount2.addr,1,client);
     // transaction 2 to send  30% of the asset
         var epochTrans = await sendFunds(recoveredAccount2,asssetCreatorAddress,creatorAmount,client)
     //transaction 3 to make the application call
-        var appCallTxn = await makeApplicationCallTransaction(recoveredAccount2.addr,16016196,[])
+        var appCallTxn = await makeApplicationCallTransaction(recoveredAccount2.addr,16054096,[])
     // transaction 4 to 10 to send the funds to the remaining ten addresses
         var royaltyTransaction1 = await sendFunds(recoveredAccount2,artist1Address,artistAmount);
         var royaltyTransaction2 = await sendFunds(recoveredAccount2,artist2Address,artistAmount);
