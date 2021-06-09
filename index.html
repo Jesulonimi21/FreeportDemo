@@ -15,7 +15,7 @@
             var recoveredAccount1 = algosdk.mnemonicToSecretKey("portion never forward pill lunch organ biology" +
             " weird catch curve isolate plug innocent skin grunt" +
             " bounce clown mercy hole eagle soul chunk type absorb trim");
-            var recoveredAccount2=algosdk.mnemonicToSecretKey("someone film pipe helmet buzz boy modify police craft price gun service home dismiss lizard monitor outer spawn promote mimic business okay position abstract aisle")
+            var recoveredAccount2={addr:""}
             var asssetCreatorAddress = "6OQQDT3FI2FY4TY6XFW7I7QFTSTQWH2TP3AF5U3W42TR6SMQPXEJX7TZAA"
             var artist1Address= "YGCKHAG4H3WDUQSAY5J4MK5ZIWLGIF7W6ZYO5EZY3OGZJB5FWGDNBX7BUA";
             var artist2Address = "IKEPBSW7RSPN4TXYC3AV6FOOGZ6PJLTJKEB2PVCTPSRFNB3CANZ5JJRZPY";
@@ -43,7 +43,7 @@
                     AlgoSigner.connect();
                     addresses = await AlgoSigner.accounts({ ledger: 'TestNet' });
                     addressToUse = prompt("Enter desired Address");
-
+                    recoveredAccount2.addr=addressToUse;
                     var addressFound = 0;
                     console.log(addresses)
                     addresses.map((el)=>{
@@ -55,18 +55,25 @@
 
                     if(addressFound == 0){
                         alert("Cant find address, refresh to continue")  
+                        return;
                     }
-        } else {
-                alert("Please install algosigner and reload page")
-                console.log('AlgoSigner is NOT installed.');
-            
-        };
+                    } else {
+                            alert("Please install algosigner and reload page")
+                            console.log('AlgoSigner is NOT installed.');
+                        
+                    };
         // console.log(algosdk.AlgoSigner)
             let button = document.getElementById("pay");
             button.addEventListener("click",async function(){
     // let rawSignedTxn = algosdk.signLogicSigTransactionObject(xtxn, lsig)
                 console.log(await client.status().do());
                 console.log("Clicked");
+                console.log(recoveredAccount2.addr)
+    let optInTxn = await optInAddress(16054095,recoveredAccount2.addr);
+    let signedOptTxn = await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(optInTxn.toByte())}]); 
+    let binarySignedTx = AlgoSigner.encoding.base64ToMsgpack(signedOptTxn[0].blob);
+    await client.sendRawTransaction(binarySignedTx).do();
+    console.log("sent opt in transaction")
      //transaction 1 to send asset
         var assetSendTxn = await  sendAsset(16054095,asssetCreatorAddress,recoveredAccount2.addr,1,client);
     // transaction 2 to send  30% of the asset
@@ -155,6 +162,28 @@
                 let params = await client.getTransactionParams().do();
                 let txn = algosdk.makeApplicationNoOpTxn(sender, params, appId, appArgs)
                 return txn;
+            }
+
+            async function optInAddress(assetID,address){
+              let  params = await algodclient.getTransactionParams().do();
+                
+                let sender = address;
+                let recipient = sender;
+                // We set revocationTarget to undefined as 
+                // This is not a clawback operation
+                let revocationTarget = undefined;
+                // CloseReaminerTo is set to undefined as
+                // we are not closing out an asset
+                let closeRemainderTo = undefined;
+                // We are sending 0 assets
+                amount = 0;
+
+
+                // signing and sending "txn" allows sender to begin accepting asset specified by creator and index
+                let opttxn = algosdk.makeAssetTransferTxnWithSuggestedParams(sender, recipient, closeRemainderTo, revocationTarget,
+                    amount, note, assetID, params);
+
+
             }
         });
 
