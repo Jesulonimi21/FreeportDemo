@@ -182,7 +182,8 @@
                 // signing and sending "txn" allows sender to begin accepting asset specified by creator and index
                 let opttxn = algosdk.makeAssetTransferTxnWithSuggestedParams(sender, recipient, closeRemainderTo, revocationTarget,
                     amount, note, assetID, params);
-
+                
+                    return opttxn;
 
             }
         });
