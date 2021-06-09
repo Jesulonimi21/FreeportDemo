@@ -324,7 +324,7 @@ let blobs = signedTxns.map((el)=>{
 })
 let signedTest = [signedTxn0.blob,...blobs];
 console.log(signedTest);
-let txTest=(await client.sendRawTransaction(signed).do());
+let txTest=(await client.sendRawTransaction(signedTest).do());
 console.log("Transaction : " + txTest.txId);
 
 return;
