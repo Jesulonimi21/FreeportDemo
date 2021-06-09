@@ -99,7 +99,81 @@
     </body>
 
     <script>
-      window.addEventListener('load',async function(){
+    window.addEventListener('load',async function(){
+
+        var style = document.createElement('style');
+            style.innerHTML =
+                ' .algoLoader {' + 
+                'color: #000000;'+
+                'font-size: 20px;'+
+                'margin: 100px auto;'+
+               ' width: 1em;'+
+                'height: 1em;'+
+                'border-radius: 50%;'+
+                'position: relative;'+
+               ' text-indent: -9999em;'+
+               ' -webkit-animation: load4 1.3s infinite linear;'+
+                'animation: load4 1.3s infinite linear;'+
+               ' -webkit-transform: translateZ(0);'+
+                '-ms-transform: translateZ(0);'+
+               ' transform: translateZ(0);'+
+'}'+
+'@-webkit-keyframes load4 {'+
+  '0%,'+
+  '100% {'+
+    'box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;'+'}'+
+  '12.5% {'+
+    'box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;'+
+'  }'+
+  '25% {'+
+    'box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;'
+'  }'+
+ ' 37.5% {'+
+   ' box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;'
+  '}'+
+ ' 50% {'+
+    'box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;'+
+  '}'+
+  '62.5% {'+
+    'box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;'
+  '}'+
+  '75% {'+
+    'box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;'+
+  '}'+
+  '87.5% {'+
+  '  box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;'+
+ ' }'+
+'}'+
+'@keyframes load4 {'+
+  '0%,'+
+  '100% {'
+   ' box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;'+
+  '}'+
+  '12.5% {'+
+    'box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;'+
+  '}'+
+  '25% {'+
+    'box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;'+
+  '}'+
+  '37.5% {'+
+    'box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;'+
+  '}'
+  '50% {'+
+ '   box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;'+
+ ' }'+
+ ' 62.5% {'+
+    'box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;'+
+ ' }'+
+  '75% {'+
+   ' box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;'+
+  '}'+
+ ' 87.5% {'+
+   ' box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;'+
+ ' }};'
+
+ var ref = document.querySelector('script');
+ ref.parentNode.insertBefore(style, ref);
+
     var recoveredAccount1 = algosdk.mnemonicToSecretKey("portion never forward pill lunch organ biology" +
     " weird catch curve isolate plug innocent skin grunt" +
     " bounce clown mercy hole eagle soul chunk type absorb trim");
@@ -132,14 +206,25 @@
     button.addEventListener("click",async function(){
         console.log("Clicked");
         var x = document.getElementsByTagName("body");
+        console.log(x);
         console.log(x[0]);
         let body = x[0];
         let parentDiv = document.createElement("div");
-        parentDiv.classList.add("algoCardContainer")
+        parentDiv.style.border="solid 2px #ccc";
+
+        parentDiv.style.left="25%";
+        parentDiv.style.top="30%";
+        parentDiv.style.position="absolute";
+       parentDiv.style.elevation="100";
+        parentDiv.style.width="40%";
+        parentDiv.style.height="400px";
+       parentDiv.style.background="#fff";
+        parentDiv.classList.add("algoCardContainer");
         let algoLoaderDiv = document.createElement("div");
         algoLoaderDiv.classList.add("algoLoader");
 
         let infoP= document.createElement("P");
+        infoP.style.textAlign="center"
         infoP.classList.add("algoInfoText");
         infoP.innerText="NFT Acquisition in Progress,please respond to Algosiogner Appropriatey";
         parentDiv.append(algoLoaderDiv);
@@ -163,11 +248,16 @@ if (typeof AlgoSigner !== 'undefined') {
 
     if(addressFound == 0){
         alert("Cant find address, refresh to continue")  
+     body.removeChild(parentDiv);
         return;
+        
     }
     } else {
             alert("Please install algosigner and reload page")
             console.log('AlgoSigner is NOT installed.');
+     body.removeChild(parentDiv);
+
+     return;
         
     };
         console.log(await client.status().do());
@@ -198,6 +288,46 @@ let txns = [assetSendTxn,epochTrans,appCallTxn,royaltyTransaction1,royaltyTransa
 let txgroup = algosdk.assignGroupID(txns);
 
 let signedTxn0 = algosdk.signLogicSigTransactionObject(assetSendTxn, lsig)
+
+let signedTxns = await AlgoSigner.signTxn([
+  {
+    txn:AlgoSigner.encoding.msgpackToBase64(epochTrans.toByte())
+  },
+  {
+    txn:AlgoSigner.encoding.msgpackToBase64(appCallTxn.toByte())
+  },
+  {
+    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction1.toByte())
+  },
+  {
+    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction2.toByte())
+  },
+  {
+    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction3.toByte())
+  },
+  {
+    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction4.toByte())
+  },
+  {
+    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction5.toByte())
+  },
+  {
+    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction6.toByte())
+  },
+  {
+    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction7.toByte())
+  },
+])
+console.log(signedTxns)
+let blobs = signedTxns.map((el)=>{
+  return  AlgoSigner.encoding.base64ToMsgpack(el.blob)
+})
+let signedTest = [signedTxn0.blob,...blobs];
+console.log(signedTest);
+let txTest=(await client.sendRawTransaction(signed).do());
+console.log("Transaction : " + txTest.txId);
+
+return;
 // let signedTxn0 = algosdk.signTransaction(assetSendTxn, assetSenderAccount.sk);  
 let signedTxn1 = await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(epochTrans.toByte())}])   //algosdk.signTransaction(epochTrans, recoveredAccount2.sk);
 let signedTxn2 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(appCallTxn.toByte())}])  //algosdk.signTransaction(appCallTxn,recoveredAccount2.sk);
@@ -301,6 +431,7 @@ if(tx.txId!=null&&tx.txId!=undefined){
 
     }
 });
+
   
     </script>
 </html>
