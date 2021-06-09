@@ -165,7 +165,7 @@
             }
 
             async function optInAddress(assetID,address){
-              let  params = await algodclient.getTransactionParams().do();
+              let  params = await client.getTransactionParams().do();
                 
                 let sender = address;
                 let recipient = sender;
