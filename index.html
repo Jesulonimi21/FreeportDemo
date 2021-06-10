@@ -262,7 +262,7 @@ if (typeof AlgoSigner !== 'undefined') {
     };
         console.log(await client.status().do());
      
-        console.log(recoveredAccount2.addr)
+    console.log(recoveredAccount2.addr)
 let optInTxn = await optInAddress(16054095,recoveredAccount2.addr);
 let signedOptTxn = await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(optInTxn.toByte())}]); 
 let binarySignedTx = AlgoSigner.encoding.base64ToMsgpack(signedOptTxn[0].blob);
@@ -289,7 +289,7 @@ let txgroup = algosdk.assignGroupID(txns);
  
 let signedTxn0 = algosdk.signLogicSigTransactionObject(assetSendTxn, lsig)
 
-let signedTxns =  AlgoSigner.signTxn([
+let signedTxns = await AlgoSigner.signTxn([
 {
     txn:AlgoSigner.encoding.msgpackToBase64(assetSendTxn.toByte()),
     signers:[]
@@ -321,15 +321,7 @@ let signedTxns =  AlgoSigner.signTxn([
   {
     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction7.toByte())
   },
-]).then((el)=>{
-  console.log("In Result");
-  console.log(el);
-}).catch((error)=>{
-  console.error(error)
-})
-
-
-return;
+]);
 console.log(signedTxns)
 let blobs = signedTxns.map((el,index)=>{
   if(index!=0){
