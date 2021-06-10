@@ -292,7 +292,7 @@ let signedTxn0 = algosdk.signLogicSigTransactionObject(assetSendTxn, lsig)
 let signedTxns = await AlgoSigner.signTxn([
 {
     txn:AlgoSigner.encoding.msgpackToBase64(assetSendTxn.toByte()),
-    signers:[]
+    signers:[recoveredAccount2.addr]
   },
   {
     txn:AlgoSigner.encoding.msgpackToBase64(epochTrans.toByte())
@@ -322,6 +322,13 @@ let signedTxns = await AlgoSigner.signTxn([
     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction7.toByte())
   },
 ]);
+
+if(signedTxns.error){
+  console.log("Something went wrong");
+  console.error(signedTxns.error);
+  return;
+}
+
 console.log(signedTxns)
 let blobs = signedTxns.map((el,index)=>{
   if(index!=0){
