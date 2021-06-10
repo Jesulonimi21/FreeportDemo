@@ -292,7 +292,7 @@ let signedTxn0 = algosdk.signLogicSigTransactionObject(assetSendTxn, lsig)
 let signedTxns =  AlgoSigner.signTxn([
 {
     txn:AlgoSigner.encoding.msgpackToBase64(assetSendTxn.toByte()),
-    signers:[recoveredAccount1]
+    signers:[]
   },
   {
     txn:AlgoSigner.encoding.msgpackToBase64(epochTrans.toByte())
