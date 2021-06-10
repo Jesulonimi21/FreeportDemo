@@ -289,7 +289,7 @@ let txgroup = algosdk.assignGroupID(txns);
  
 let signedTxn0 = algosdk.signLogicSigTransactionObject(assetSendTxn, lsig)
 
-let signedTxns = await AlgoSigner.signTxn([
+let signedTxns =  AlgoSigner.signTxn([
 {
     txn:AlgoSigner.encoding.msgpackToBase64(assetSendTxn.toByte()),
     signers:[recoveredAccount2.addr]
@@ -321,7 +321,16 @@ let signedTxns = await AlgoSigner.signTxn([
   {
     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction7.toByte())
   },
-]);
+]).then((el)=>{
+
+  console.log(el);
+
+}).catch((err)=>{
+  console.log("Something went wrong");
+  console.error(signedTxns.error);
+});
+
+return;
 
 if(signedTxns.error){
   console.log("Something went wrong");
