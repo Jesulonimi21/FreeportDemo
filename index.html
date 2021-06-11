@@ -243,9 +243,12 @@ if (typeof AlgoSigner !== 'undefined') {
     // await AlgoSigner.connect();
     // addresses = await AlgoSigner.accounts({ ledger: 'TestNet' });
     addresses = await myalgoConnect.connect()
-    console.log(addresses)
- 
-    addressToUse = prompt("Enter desired Address");
+    if(addresses.length>1){
+      addressToUse = prompt("Enter desired Address");
+    }else{
+      addressToUse = addresses[0].address
+    }
+  
     recoveredAccount2.addr=addressToUse;
     var addressFound = 0;
     console.log(addresses)
@@ -274,7 +277,10 @@ if (typeof AlgoSigner !== 'undefined') {
      
     console.log(recoveredAccount2.addr)
 let optInTxn = await optInAddress(16054095,recoveredAccount2.addr);
-let signedOptTxn = await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(optInTxn.toByte())}]); 
+// let signedOptTxn = await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(optInTxn.toByte())}]); 
+let signedOptTxn = await myalgoConnect.signTransaction(optInTxn); 
+console.log(signedOptTxn);
+return;
 let binarySignedTx = AlgoSigner.encoding.base64ToMsgpack(signedOptTxn[0].blob);
 infoP.innerText="Opting Users Address to NFT"
 await client.sendRawTransaction(binarySignedTx).do();
