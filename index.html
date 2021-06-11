@@ -344,7 +344,7 @@ let blobs = signedTxns.map((el,index)=>{
 
 })
 let signedTest = [...blobs];
-
+console.log(signedTest)
 let txTest=(await client.sendRawTransaction(signedTest).do());
 console.log("Transaction : " + txTest.txId);
 if(txTest.txId!=null&&txTest.txId!=undefined){
