@@ -201,7 +201,7 @@
     let note = new Uint8Array(Buffer.from("","base64"));
     var addresses = []
     var addressToUse;
-  
+    let  params={};
 // console.log(algosdk.AlgoSigner)
     let button = document.getElementById("acquireNft");
 
@@ -276,7 +276,7 @@ if (typeof AlgoSigner !== 'undefined') {
         console.log(await client.status().do());
      
     console.log(recoveredAccount2.addr)
-let  params = await client.getTransactionParams().do();
+  params = await client.getTransactionParams().do();
 let optInTxn = await optInAddress(16054095,recoveredAccount2.addr);
 // let signedOptTxn = await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(optInTxn.toByte())}]); 
 let signedOptTxn = await myalgoConnect.signTransaction(optInTxn); 
