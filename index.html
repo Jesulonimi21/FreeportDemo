@@ -406,7 +406,7 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
 
     async function sendFunds(sender,receiver,amount){
         // let params = await client.getTransactionParams().do();
-        let txn = //algosdk.makePaymentTxnWithSuggestedParams(sender.addr,receiver,amount,undefined,undefined,params)
+        // let txn = //algosdk.makePaymentTxnWithSuggestedParams(sender.addr,receiver,amount,undefined,undefined,params)
         // new algosdk.Transaction({
         //     "from": sender.addr,
         //     "to": receiver,
@@ -418,7 +418,7 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
         //     "genesisHash": params.genesisHash,
         //     "note": new Uint8Array(0),
         // });
-        txn = {
+      let    txn = {
             ...params,
             fee: 1000,
             flatFee: true,
