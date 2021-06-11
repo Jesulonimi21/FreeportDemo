@@ -214,7 +214,15 @@
     //    .assetID(assetIndex).do();
     // and in the loop below use this to extract the asset for a particular account
     // accountInfo['accounts'][idx][account]);
-    let accountInfo = await algodclient.accountInformation(account).do();
+    let accountInfo = {}
+    try{
+      accountInfo =  await algodclient.accountInformation(account).do();
+    }catch(error){
+      console.error(error);
+      alert(error)
+      body.removeChild(parentDiv);
+    }
+   
     console.log(accountInfo);
     let retVal = "";
     for (idx = 0; idx < accountInfo['created-apps'].length; idx++) {
@@ -263,6 +271,9 @@
 
 
     let noOfEditionsBought = await printCreatedApp(client,"5CJEIMOPJIKJKSFGIAHNF7NTNUFKZLQQETOWHXEA3AM335B5NQKYHSFVEY",16168325);
+    if(noOfEditionsBought==-1){
+      return;
+    }
       console.log(noOfEditionsBought);
 
       if(noOfEditionsBought>=5){
