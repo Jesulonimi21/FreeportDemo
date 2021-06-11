@@ -453,15 +453,17 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
         // signing and sending "txn" allows sender to begin accepting asset specified by creator and index
         // let opttxn = algosdk.makeAssetTransferTxnWithSuggestedParams(sender, recipient, closeRemainderTo, revocationTarget,
         //     amount, note, assetID, params);
-        let opttxn={
+        txn = {
           ...params,
           fee: 1000,
           flatFee: true,
-          type: 'optin',
+          type: 'axfer',
           assetIndex: assetID,
-          from: address,
+          from: sender,
+          to:  recipient,
+          amount: 0,
           note: new Uint8Array(Buffer.from('Hello World'))
-        }
+        };
         console.log(opttxn);
             return opttxn;
 
