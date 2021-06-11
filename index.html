@@ -237,13 +237,12 @@
         parentDiv.append(algoLoaderDiv);
         parentDiv.append(infoP);
         body.append(parentDiv)
-// let rawSignedTxn = algosdk.signLogicSigTransactionObject(xtxn, lsig)
+
 
     console.log('AlgoSigner is installed.');
-    // await AlgoSigner.connect();
-    // addresses = await AlgoSigner.accounts({ ledger: 'TestNet' });
-    addresses = await myalgoConnect.connect()
-    if(addresses.length>1){
+  
+      myalgoConnect.connect().then(async(addresses)=>{
+        if(addresses.length>1){
       addressToUse = prompt("Enter desired Address");
     }else{
       addressToUse = addresses[0].address
@@ -265,132 +264,90 @@
         return;
         
     }
- 
-        // console.log(await client.status().do());
+        
      
-    console.log(recoveredAccount2.addr)
-  params = await client.getTransactionParams().do();
-let optInTxn = await optInAddress(16054095,recoveredAccount2.addr);
-// let signedOptTxn = await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(optInTxn.toByte())}]); 
-let signedOptTxn = await myalgoConnect.signTransaction(optInTxn); 
-console.log(signedOptTxn);
-// let binarySignedTx = AlgoSigner.encoding.base64ToMsgpack(signedOptTxn[0].blob);
-infoP.innerText="Opting Users Address to NFT"
-let optSentTx=await client.sendRawTransaction(signedOptTxn.blob).do();
-console.log("sent opt in transaction with txId: "+ optSentTx.txId);
+              console.log(recoveredAccount2.addr)
+            params = await client.getTransactionParams().do();
+            let optInTxn =  optInAddress(16054095,recoveredAccount2.addr);
+           myalgoConnect.signTransaction(optInTxn).then(async(signedOptTxn)=>{
+            console.log(signedOptTxn);
+            infoP.innerText="Opting Users Address to NFT"
+            let optSentTx=await client.sendRawTransaction(signedOptTxn.blob).do();
+            console.log("sent opt in transaction with txId: "+ optSentTx.txId);
 
-infoP.innerText="Users Address Opted In to NFT"
-//transaction 1 to send asset
-var assetSendTxn = await  sendAsset(16054095,asssetCreatorAddress,recoveredAccount2.addr,1,client);
-// transaction 2 to send  30% of the asset
-var epochTrans = await sendFunds(recoveredAccount2,asssetCreatorAddress,creatorAmount,client)
-//transaction 3 to make the application call
-var appCallTxn = await makeApplicationCallTransaction(recoveredAccount2.addr,16054096,[])
-// transaction 4 to 10 to send the funds to the remaining ten addresses
-var royaltyTransaction1 = await sendFunds(recoveredAccount2,artist1Address,artistAmount);
-var royaltyTransaction2 = await sendFunds(recoveredAccount2,artist2Address,artistAmount);
-var royaltyTransaction3 = await sendFunds(recoveredAccount2,artist3Address,artistAmount);
-var royaltyTransaction4 = await sendFunds(recoveredAccount2,artist4Address,artistAmount);
-var royaltyTransaction5 = await sendFunds(recoveredAccount2,artist5Address,artistAmount);
-var royaltyTransaction6 = await sendFunds(recoveredAccount2,artist6Address,artistAmount);
-var royaltyTransaction7 = await sendFunds(recoveredAccount2,artist7Address,artistAmount);
-let txns = [assetSendTxn,epochTrans,appCallTxn,royaltyTransaction1,royaltyTransaction2,royaltyTransaction3,royaltyTransaction4,royaltyTransaction5,royaltyTransaction6,royaltyTransaction7]
-let groupId = algosdk.computeGroupID(txns);
-txns = txns.map((el)=>{
-  el.group=groupId;
-  return el;
-})
+            infoP.innerText="Users Address Opted In to NFT"
+            //transaction 1 to send asset
+            var assetSendTxn =   sendAsset(16054095,asssetCreatorAddress,recoveredAccount2.addr,1,client);
+            // transaction 2 to send  30% of the asset
+            var epochTrans =  sendFunds(recoveredAccount2,asssetCreatorAddress,creatorAmount,client)
+            //transaction 3 to make the application call
+            var appCallTxn =  makeApplicationCallTransaction(recoveredAccount2.addr,16054096,[])
+            // transaction 4 to 10 to send the funds to the remaining ten addresses
+            var royaltyTransaction1 =  sendFunds(recoveredAccount2,artist1Address,artistAmount);
+            var royaltyTransaction2 =  sendFunds(recoveredAccount2,artist2Address,artistAmount);
+            var royaltyTransaction3 =  sendFunds(recoveredAccount2,artist3Address,artistAmount);
+            var royaltyTransaction4 =  sendFunds(recoveredAccount2,artist4Address,artistAmount);
+            var royaltyTransaction5 =  sendFunds(recoveredAccount2,artist5Address,artistAmount);
+            var royaltyTransaction6 =  sendFunds(recoveredAccount2,artist6Address,artistAmount);
+            var royaltyTransaction7 =  sendFunds(recoveredAccount2,artist7Address,artistAmount);
+            let txns = [assetSendTxn,epochTrans,appCallTxn,royaltyTransaction1,royaltyTransaction2,royaltyTransaction3,royaltyTransaction4,royaltyTransaction5,royaltyTransaction6,royaltyTransaction7]
+            let groupId = algosdk.computeGroupID(txns);
+            txns = txns.map((el)=>{
+            el.group=groupId;
+            return el;
+            });
+          let signedTxn0 = algosdk.signLogicSigTransaction(txns[0], lsig)
+
+
+
+          myalgoConnect.signTransaction([txns[1], txns[2], txns[3],txns[4],txns[5],txns[6],txns[7],txns[8],txns[9]]).then(async(signedTxns)=>{
+            console.log(signedTxns)
+              let blobs = signedTxns.map((el,index)=>{
+                  return el.blob
+              })
+          let signedTest = [signedTxn0.blob,...blobs];
+          console.log(signedTest)
+          let txTest=(await client.sendRawTransaction(signedTest).do());
+          console.log("Transaction : " + txTest.txId);
+          if(txTest.txId!=null&&txTest.txId!=undefined){
+              infoP.innerText="Transaction successfull with Txid: "+ txTest.txId;
+            alert("Transaction successfull with Txid: "+ txTest.txId );
+            body.removeChild(parentDiv);
+          }else{
+              alert("Transaction Failed");
+              body.removeChild(parentDiv);
+          } 
+          }).catch((error)=>{
+            console.error("Error ocurred ", error);
+                alert(error)
+          });
+       
+
+
+
+
+            }).catch((error)=>{
+              console.error("Error ocurred ", error);
+                alert(error)
+            }); 
+           
+              }).catch((error)=>{
+                console.error("Error ocurred ", error);
+                alert(error)
+              })
+
+          
  
-let signedTxn0 = algosdk.signLogicSigTransaction(txns[0], lsig)
 
-// let signedTxns = await AlgoSigner.signTxn([
-// {
-//     txn:AlgoSigner.encoding.msgpackToBase64(assetSendTxn.toByte()),
-//     signers:[]
-//   },
-//   {
-//     txn:AlgoSigner.encoding.msgpackToBase64(epochTrans.toByte())
-//   },
-//   {
-//     txn:AlgoSigner.encoding.msgpackToBase64(appCallTxn.toByte())
-//   },
-//   {
-//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction1.toByte())
-//   },
-//   {
-//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction2.toByte())
-//   },
-//   {
-//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction3.toByte())
-//   },
-//   {
-//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction4.toByte())
-//   },
-//   {
-//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction5.toByte())
-//   },
-//   {
-//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction6.toByte())
-//   },
-//   {
-//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction7.toByte())
-//   },
-// ]);
 
-let signedTxns = await myalgoConnect.signTransaction([txns[1], txns[2], txns[3],txns[4],txns[5],txns[6],txns[7],txns[8],txns[9]]);
-console.log(signedTxns)
-let blobs = signedTxns.map((el,index)=>{
 
-    return el.blob
+
   
 
 })
-let signedTest = [signedTxn0.blob,...blobs];
-console.log(signedTest)
-let txTest=(await client.sendRawTransaction(signedTest).do());
-console.log("Transaction : " + txTest.txId);
-if(txTest.txId!=null&&txTest.txId!=undefined){
-    infoP.innerText="Transaction successfull with Txid: "+ txTest.txId;
-   alert("Transaction successfull with Txid: "+ txTest.txId );
-   body.removeChild(parentDiv);
-}else{
-     alert("Transaction Failed");
-     body.removeChild(parentDiv);
-}
-// return;
-// // let signedTxn0 = algosdk.signTransaction(assetSendTxn, assetSenderAccount.sk);  
-// let signedTxn1 = await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(epochTrans.toByte())}])   //algosdk.signTransaction(epochTrans, recoveredAccount2.sk);
-// let signedTxn2 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(appCallTxn.toByte())}])  //algosdk.signTransaction(appCallTxn,recoveredAccount2.sk);
-// let signedTxn3 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction1.toByte())}]) // algosdk.signTransaction(royaltyTransaction1,recoveredAccount2.sk);
-// let signedTxn4 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction2.toByte())}])  //algosdk.signTransaction(royaltyTransaction2,recoveredAccount2.sk);
-// let signedTxn5 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction3.toByte())}]) //algosdk.signTransaction(royaltyTransaction3,recoveredAccount2.sk);
-// let signedTxn6 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction4.toByte())}]) //algosdk.signTransaction(royaltyTransaction4,recoveredAccount2.sk);
-// let signedTxn7 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction5.toByte())}]) //algosdk.signTransaction(royaltyTransaction5,recoveredAccount2.sk);
-// let signedTxn8 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction6.toByte())}]) //algosdk.signTransaction(royaltyTransaction6,recoveredAccount2.sk);
-// let signedTxn9 =  await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction7.toByte())}]) //algosdk.signTransaction(royaltyTransaction7,recoveredAccount2.sk);
-
-// console.log(txgroup);
-// console.log(signedTxn1);
-// let signed = [signedTxn0.blob,AlgoSigner.encoding.base64ToMsgpack(signedTxn1[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn2[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn3[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn4[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn5[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn6[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn7[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn8[0].blob),AlgoSigner.encoding.base64ToMsgpack(signedTxn9[0].blob)]
-// console.log(signed);
-// let tx = (await client.sendRawTransaction(signed).do());
-// console.log("Transaction : " + tx.txId);
 
 
-// Wait for transaction to be confirmed
-// await waitForConfirmation(algodClient, tx.txId)
-// console.log("Confirmed");
-})
-
-
-    async function sendAsset(assetID,revocationTarget,recipient, units,algodClient){   
-
-        // params = await algodClient.getTransactionParams().do();
-        //comment out the next two lines to use suggested fee
-        // params.fee = 1000;
-        // params.flatFee = true;
-
-        // sender =  recoveredAccount1;
+     function sendAsset(assetID,revocationTarget,recipient, units,algodClient){   
        
         closeRemainderTo = undefined;
         //Amount of the asset to transfer
@@ -406,20 +363,7 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
         return xtxn;
     }
 
-    async function sendFunds(sender,receiver,amount){
-        // let params = await client.getTransactionParams().do();
-        // let txn = //algosdk.makePaymentTxnWithSuggestedParams(sender.addr,receiver,amount,undefined,undefined,params)
-        // new algosdk.Transaction({
-        //     "from": sender.addr,
-        //     "to": receiver,
-        //     "amount": amount,
-        //     "fee": params.fee,
-        //     "firstRound": params.firstRound,
-        //     "lastRound": params.lastRound,
-        //     "genesisID": params.genesisID,
-        //     "genesisHash": params.genesisHash,
-        //     "note": new Uint8Array(0),
-        // });
+     function sendFunds(sender,receiver,amount){
       let    txn = {
             ...params,
             fee: 1000,
@@ -430,13 +374,11 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
             amount: amount,
             note: new Uint8Array(Buffer.from('Hello World'))
     };
-        // let signedTxn = algosdk.signTransaction(txn, sender.sk);
+     
         return txn;
     }
 
-    async function makeApplicationCallTransaction(sender,appId,appArgs){
-        // let params = await client.getTransactionParams().do();
-        // let txn = algosdk.makeApplicationNoOpTxn(sender, params, appId, appArgs)
+     function makeApplicationCallTransaction(sender,appId,appArgs){
         let txn = {
             type: "appl",
             appOnComplete: 0,
@@ -449,24 +391,19 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
         return txn;
     }
 
-    async function optInAddress(assetID,address){
-      // let  params = await client.getTransactionParams().do();
-        
+     function optInAddress(assetID,address){
+     
         let sender = address;
         let recipient = sender;
-        // We set revocationTarget to undefined as 
-        // This is not a clawback operation
+        
         let revocationTarget = undefined;
-        // CloseReaminerTo is set to undefined as
-        // we are not closing out an asset
+       
         let closeRemainderTo = undefined;
-        // We are sending 0 assets
+      
         amount = 0;
 
 
-        // signing and sending "txn" allows sender to begin accepting asset specified by creator and index
-        // let opttxn = algosdk.makeAssetTransferTxnWithSuggestedParams(sender, recipient, closeRemainderTo, revocationTarget,
-        //     amount, note, assetID, params);
+      
         let opttxn = {
           ...params,
           fee: 1000,
