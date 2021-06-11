@@ -332,8 +332,7 @@ let signedTxn0 = algosdk.signLogicSigTransactionObject(assetSendTxn, lsig)
 //     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction7.toByte())
 //   },
 // ]);
-let appCallTxnSigned = await  myalgoConnect.signTransaction(appCallTxn);
-console.log("AppcALLtXN : ",appCallTxnSigned);
+
 let signedTxns = await myalgoConnect.signTransaction([epochTrans, appCallTxn, royaltyTransaction1,royaltyTransaction2,royaltyTransaction3,royaltyTransaction4,royaltyTransaction5,royaltyTransaction6,royaltyTransaction7]);
 console.log(signedTxns)
 let blobs = signedTxns.map((el,index)=>{
@@ -384,7 +383,7 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
 
     async function sendAsset(assetID,revocationTarget,recipient, units,algodClient){   
 
-        params = await algodClient.getTransactionParams().do();
+        // params = await algodClient.getTransactionParams().do();
         //comment out the next two lines to use suggested fee
         // params.fee = 1000;
         // params.flatFee = true;
@@ -406,12 +405,14 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
     }
 
     async function sendFunds(sender,receiver,amount){
-        let params = await client.getTransactionParams().do();
+        // let params = await client.getTransactionParams().do();
         let txn = //algosdk.makePaymentTxnWithSuggestedParams(sender.addr,receiver,amount,undefined,undefined,params)
         new algosdk.Transaction({
             "from": sender.addr,
             "to": receiver,
             "amount": amount,
+            flatFee: true,
+            type:"pay",
             "fee": params.fee,
             "firstRound": params.firstRound,
             "lastRound": params.lastRound,
