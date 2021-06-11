@@ -276,6 +276,7 @@ if (typeof AlgoSigner !== 'undefined') {
         console.log(await client.status().do());
      
     console.log(recoveredAccount2.addr)
+let  params = await client.getTransactionParams().do();
 let optInTxn = await optInAddress(16054095,recoveredAccount2.addr);
 // let signedOptTxn = await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(optInTxn.toByte())}]); 
 let signedOptTxn = await myalgoConnect.signTransaction(optInTxn); 
@@ -390,8 +391,8 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
 
         params = await algodClient.getTransactionParams().do();
         //comment out the next two lines to use suggested fee
-        params.fee = 1000;
-        params.flatFee = true;
+        // params.fee = 1000;
+        // params.flatFee = true;
 
         // sender =  recoveredAccount1;
        
@@ -435,7 +436,7 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
     }
 
     async function optInAddress(assetID,address){
-      let  params = await client.getTransactionParams().do();
+      // let  params = await client.getTransactionParams().do();
         
         let sender = address;
         let recipient = sender;
@@ -450,9 +451,18 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
 
 
         // signing and sending "txn" allows sender to begin accepting asset specified by creator and index
-        let opttxn = algosdk.makeAssetTransferTxnWithSuggestedParams(sender, recipient, closeRemainderTo, revocationTarget,
-            amount, note, assetID, params);
-        
+        // let opttxn = algosdk.makeAssetTransferTxnWithSuggestedParams(sender, recipient, closeRemainderTo, revocationTarget,
+        //     amount, note, assetID, params);
+        let opttxn={
+          ...params,
+          fee: 1000,
+          flatFee: true,
+          type: 'optin',
+          assetIndex: assetID,
+          from: address,
+          note: new Uint8Array(Buffer.from('Hello World'))
+        }
+        console.log(opttxn);
             return opttxn;
 
     }
