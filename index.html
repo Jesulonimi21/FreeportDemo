@@ -207,7 +207,7 @@
 
     // console.log(myAlgoConnect)
     // console.log(myalgo);
-    // console.log(algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject)
+  
     var myalgoConnect = new MyAlgoConnect();
     
 
@@ -298,7 +298,7 @@ var royaltyTransaction7 = await sendFunds(recoveredAccount2,artist7Address,artis
 let txns = [assetSendTxn,epochTrans,appCallTxn,royaltyTransaction1,royaltyTransaction2,royaltyTransaction3,royaltyTransaction4,royaltyTransaction5,royaltyTransaction6,royaltyTransaction7]
 let txgroup = algosdk.assignGroupID(txns);
  
-let signedTxn0 = algosdk.signLogicSigTransactionObject(txns[0], lsig)
+let signedTxn0 = algosdk.signLogicSigTransaction(txns[0], lsig)
 
 // let signedTxns = await AlgoSigner.signTxn([
 // {
@@ -337,7 +337,10 @@ let signedTxn0 = algosdk.signLogicSigTransactionObject(txns[0], lsig)
 let signedTxns = await myalgoConnect.signTransaction([txns[1], txns[2], txns[3],txns[4],txns[5],txns[6],txns[7],txns[8],txns[9]]);
 console.log(signedTxns)
 let blobs = signedTxns.map((el,index)=>{
+
     return el.blob
+  
+
 })
 let signedTest = [signedTxn0.blob,...blobs];
 console.log(signedTest)
@@ -391,7 +394,7 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
         amount = units;
 
         // signing and sending "txn" will send "amount" assets from "sender" to "recipient"
-        let xtxn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject(epochClawedBackAddress, recipient, closeRemainderTo, revocationTarget,
+        let xtxn = algosdk.makeAssetTransferTxnWithSuggestedParams(epochClawedBackAddress, recipient, closeRemainderTo, revocationTarget,
                 amount,  note, assetID, params);
         let program = new Uint8Array(Buffer.from(epochBase64Address,"base64"))
         const lsig = algosdk.makeLogicSig(program);   
