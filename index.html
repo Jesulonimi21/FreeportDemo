@@ -337,12 +337,13 @@ console.log("AppcALLtXN : ",appCallTxnSigned);
 let signedTxns = [epochTrans, appCallTxn, royaltyTransaction1,royaltyTransaction2,royaltyTransaction3,royaltyTransaction4,royaltyTransaction5,royaltyTransaction6,royaltyTransaction7]
 console.log(signedTxns)
 let blobs = signedTxns.map((el,index)=>{
-  if(index!=0){
-    return  AlgoSigner.encoding.base64ToMsgpack(el.blob)
+  if(index==0){
+        signedTxn0.blob
+  }else{
+    el.blob
   }
 
 })
-blobs[0]= signedTxn0.blob
 let signedTest = [...blobs];
 console.log(signedTest);
 let txTest=(await client.sendRawTransaction(signedTest).do());
