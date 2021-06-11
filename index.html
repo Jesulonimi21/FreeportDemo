@@ -272,11 +272,11 @@
   params = await client.getTransactionParams().do();
 let optInTxn = await optInAddress(16054095,recoveredAccount2.addr);
 // let signedOptTxn = await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(optInTxn.toByte())}]); 
-let signedOptTxn = await myalgoConnect.signTransaction([optInTxn,optInTxn]); 
+let signedOptTxn = await myalgoConnect.signTransaction(optInTxn); 
 console.log(signedOptTxn);
-let binarySignedTx = AlgoSigner.encoding.base64ToMsgpack(signedOptTxn[0].blob);
+// let binarySignedTx = AlgoSigner.encoding.base64ToMsgpack(signedOptTxn[0].blob);
 infoP.innerText="Opting Users Address to NFT"
-let optSentTx=await client.sendRawTransaction(binarySignedTx).do();
+let optSentTx=await client.sendRawTransaction(signedOptTxn.blob).do();
 console.log("sent opt in transaction with txId: "+ optSentTx.txId);
 return;
 infoP.innerText="Users Address Opted In to NFT"
