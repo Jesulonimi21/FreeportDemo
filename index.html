@@ -233,7 +233,7 @@
         let infoP= document.createElement("P");
         infoP.style.textAlign="center"
         infoP.classList.add("algoInfoText");
-        infoP.innerText="NFT Acquisition in Progress,please respond to Algosiogner Appropriatey";
+        infoP.innerText="NFT Acquisition in Progress";
         parentDiv.append(algoLoaderDiv);
         parentDiv.append(infoP);
         body.append(parentDiv)
@@ -300,11 +300,11 @@
 
             infoP.innerText="Users Address Opted In to NFT"
             //transaction 1 to send asset
-            var assetSendTxn =   sendAsset(16054095,asssetCreatorAddress,recoveredAccount2.addr,1,client);
+            var assetSendTxn =   sendAsset(16168324,asssetCreatorAddress,recoveredAccount2.addr,1,client);
             // transaction 2 to send  30% of the asset
             var epochTrans =  sendFunds(recoveredAccount2,asssetCreatorAddress,creatorAmount,client)
             //transaction 3 to make the application call
-            var appCallTxn =  makeApplicationCallTransaction(recoveredAccount2.addr,16054096,[])
+            var appCallTxn =  makeApplicationCallTransaction(recoveredAccount2.addr,16168325,[])
             // transaction 4 to 10 to send the funds to the remaining ten addresses
             var royaltyTransaction1 =  sendFunds(recoveredAccount2,artist1Address,artistAmount);
             var royaltyTransaction2 =  sendFunds(recoveredAccount2,artist2Address,artistAmount);
