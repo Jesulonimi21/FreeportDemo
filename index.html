@@ -453,7 +453,7 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
         // signing and sending "txn" allows sender to begin accepting asset specified by creator and index
         // let opttxn = algosdk.makeAssetTransferTxnWithSuggestedParams(sender, recipient, closeRemainderTo, revocationTarget,
         //     amount, note, assetID, params);
-        txn = {
+        let opttxn = {
           ...params,
           fee: 1000,
           flatFee: true,
