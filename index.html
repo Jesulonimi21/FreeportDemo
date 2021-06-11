@@ -238,7 +238,7 @@
         parentDiv.append(infoP);
         body.append(parentDiv)
 // let rawSignedTxn = algosdk.signLogicSigTransactionObject(xtxn, lsig)
-if (typeof AlgoSigner !== 'undefined') {
+
     console.log('AlgoSigner is installed.');
     // await AlgoSigner.connect();
     // addresses = await AlgoSigner.accounts({ ledger: 'TestNet' });
@@ -265,27 +265,20 @@ if (typeof AlgoSigner !== 'undefined') {
         return;
         
     }
-    } else {
-            alert("Please install algosigner and reload page")
-            console.log('AlgoSigner is NOT installed.');
-     body.removeChild(parentDiv);
-
-     return;
-        
-    };
-        console.log(await client.status().do());
+ 
+        // console.log(await client.status().do());
      
     console.log(recoveredAccount2.addr)
   params = await client.getTransactionParams().do();
 let optInTxn = await optInAddress(16054095,recoveredAccount2.addr);
 // let signedOptTxn = await AlgoSigner.signTxn([{txn:AlgoSigner.encoding.msgpackToBase64(optInTxn.toByte())}]); 
-let signedOptTxn = await myalgoConnect.signTransaction(optInTxn); 
+let signedOptTxn = await myalgoConnect.signTransaction([optInTxn,optInTxn]); 
 console.log(signedOptTxn);
-return;
 let binarySignedTx = AlgoSigner.encoding.base64ToMsgpack(signedOptTxn[0].blob);
 infoP.innerText="Opting Users Address to NFT"
-await client.sendRawTransaction(binarySignedTx).do();
-console.log("sent opt in transaction")
+let optSentTx=await client.sendRawTransaction(binarySignedTx).do();
+console.log("sent opt in transaction with txId: "+ optSentTx.txId);
+return;
 infoP.innerText="Users Address Opted In to NFT"
 //transaction 1 to send asset
 var assetSendTxn = await  sendAsset(16054095,asssetCreatorAddress,recoveredAccount2.addr,1,client);
