@@ -407,20 +407,27 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
     async function sendFunds(sender,receiver,amount){
         // let params = await client.getTransactionParams().do();
         let txn = //algosdk.makePaymentTxnWithSuggestedParams(sender.addr,receiver,amount,undefined,undefined,params)
-        new algosdk.Transaction({
-            "from": sender.addr,
-            "to": receiver,
-            "amount": amount,
+        // new algosdk.Transaction({
+        //     "from": sender.addr,
+        //     "to": receiver,
+        //     "amount": amount,
+        //     "fee": params.fee,
+        //     "firstRound": params.firstRound,
+        //     "lastRound": params.lastRound,
+        //     "genesisID": params.genesisID,
+        //     "genesisHash": params.genesisHash,
+        //     "note": new Uint8Array(0),
+        // });
+        txn = {
+            ...params,
+            fee: 1000,
             flatFee: true,
-            type:"pay",
-            "fee": params.fee,
-            "firstRound": params.firstRound,
-            "lastRound": params.lastRound,
-            "genesisID": params.genesisID,
-            "genesisHash": params.genesisHash,
-            "note": new Uint8Array(0),
-        });
-
+            type: 'pay',
+            from: sender.addr,
+            to:  receiver,
+            amount: amount,
+            note: new Uint8Array(Buffer.from('Hello World'))
+    };
         // let signedTxn = algosdk.signTransaction(txn, sender.sk);
         return txn;
     }
