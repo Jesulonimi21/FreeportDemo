@@ -208,7 +208,30 @@
     // console.log(myAlgoConnect)
     // console.log(myalgo);
     var myalgoConnect = new MyAlgoConnect();
-    
+    const printCreatedApp = async function (algodclient, account, assetid) {
+    // note: if you have an indexer instance available it is easier to just use this
+    //     let accountInfo = await indexerClient.searchAccounts()
+    //    .assetID(assetIndex).do();
+    // and in the loop below use this to extract the asset for a particular account
+    // accountInfo['accounts'][idx][account]);
+    let accountInfo = await algodclient.accountInformation(account).do();
+    console.log(accountInfo);
+    let retVal = "";
+    for (idx = 0; idx < accountInfo['created-apps'].length; idx++) {
+        let scrutinizedAsset = accountInfo['created-apps'][idx];
+        if (scrutinizedAsset['id'] == assetid) {
+            let myparms = JSON.stringify(scrutinizedAsset['params'], undefined, 2);
+            scrutinizedAsset.params["global-state"].map((el)=>{
+              let key = atob(el.key);
+              if(key=="edition"){
+                retVal= el.value.uint
+              }
+            })
+            break;
+        }
+    }
+    return retVal;
+};
 
     button.addEventListener("click",async function(){
         console.log("Clicked");
@@ -239,8 +262,17 @@
         body.append(parentDiv)
 
 
-    console.log('AlgoSigner is installed.');
-  
+    let noOfEditionsBought = await printCreatedApp(client,"5CJEIMOPJIKJKSFGIAHNF7NTNUFKZLQQETOWHXEA3AM335B5NQKYHSFVEY",16168325);
+      console.log(noOfEditionsBought);
+
+      if(noOfEditionsBought>=5){
+        alert("All 5 editions have been sold already");
+        body.removeChild(parentDiv);
+        return;
+      }else{
+        infoP.innerText=`Edition ${noOfEditionsBought+1} of Epoch NFT acquisition in progress`;
+      }
+
       myalgoConnect.connect().then(async(addresses)=>{
         if(addresses.length>1){
       addressToUse = prompt("Enter desired Address");
@@ -386,7 +418,7 @@
 
         // signing and sending "txn" will send "amount" assets from "sender" to "recipient"
         let xtxn = algosdk.makeAssetTransferTxnWithSuggestedParams(epochClawedBackAddress, recipient, closeRemainderTo, revocationTarget,
-                amount,  note, assetID, params);
+                amount,  new Uint8Array(Buffer.from("FREEPORT” – featuring Neïl Beloufa, Sarah Rosalena Brady, Alice Bucknell, Juan Covelli, Alexandra Koumantaki, Amanda Ross-Ho, Hirad Sab")), assetID, params);
         let program = new Uint8Array(Buffer.from(epochBase64Address,"base64"))
         const lsig = algosdk.makeLogicSig(program);   
        console.log(lsig.address());
