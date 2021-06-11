@@ -267,12 +267,35 @@
         
      
               console.log(recoveredAccount2.addr)
-            params = await client.getTransactionParams().do();
+
+              try {
+                params = await client.getTransactionParams().do();
+                }
+                catch(error) {
+                  console.error("Error ocurred ", error);
+                    alert(error)
+                    body.removeChild(parentDiv);
+                    return;
+                }
+                try{
+
+                }catch(error){
+
+                }
+            
             let optInTxn =  optInAddress(16054095,recoveredAccount2.addr);
-           myalgoConnect.signTransaction(optInTxn).then(async(signedOptTxn)=>{
+            myalgoConnect.signTransaction(optInTxn).then(async(signedOptTxn)=>{
             console.log(signedOptTxn);
             infoP.innerText="Opting Users Address to NFT"
-            let optSentTx=await client.sendRawTransaction(signedOptTxn.blob).do();
+            let optSentTx={}
+            try{
+              optSentTx=await client.sendRawTransaction(signedOptTxn.blob).do();
+              }catch(error){
+                console.error("Error ocurred ", error);
+                    alert(error)
+                    body.removeChild(parentDiv);
+                    return;
+              }
             console.log("sent opt in transaction with txId: "+ optSentTx.txId);
 
             infoP.innerText="Users Address Opted In to NFT"
@@ -307,7 +330,15 @@
               })
           let signedTest = [signedTxn0.blob,...blobs];
           console.log(signedTest)
-          let txTest=(await client.sendRawTransaction(signedTest).do());
+          let txTest={};
+          try{
+            txTest=(await client.sendRawTransaction(signedTest).do());
+          }catch(error){
+            console.error("Error ocurred ", error);
+                    alert(error)
+                    body.removeChild(parentDiv);
+                    return;
+            }
           console.log("Transaction : " + txTest.txId);
           if(txTest.txId!=null&&txTest.txId!=undefined){
               infoP.innerText="Transaction successfull with Txid: "+ txTest.txId;
@@ -320,20 +351,20 @@
           }).catch((error)=>{
             console.error("Error ocurred ", error);
                 alert(error)
+                body.removeChild(parentDiv);
           });
-       
-
-
-
+      
 
             }).catch((error)=>{
               console.error("Error ocurred ", error);
                 alert(error)
+                body.removeChild(parentDiv);
             }); 
            
               }).catch((error)=>{
                 console.error("Error ocurred ", error);
                 alert(error)
+                body.removeChild(parentDiv);
               })
 
           
