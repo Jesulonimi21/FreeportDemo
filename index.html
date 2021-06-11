@@ -334,7 +334,7 @@ let signedTxn0 = algosdk.signLogicSigTransactionObject(assetSendTxn, lsig)
 // ]);
 let appCallTxnSigned = await  myalgoConnect.signTransaction(appCallTxn);
 console.log("AppcALLtXN : ",appCallTxnSigned);
-let signedTxns =  myalgoConnect.signTransaction([epochTrans, appCallTxn, royaltyTransaction1,royaltyTransaction2,royaltyTransaction3,royaltyTransaction4,royaltyTransaction5,royaltyTransaction6,royaltyTransaction7]);
+let signedTxns = await myalgoConnect.signTransaction([epochTrans, appCallTxn, royaltyTransaction1,royaltyTransaction2,royaltyTransaction3,royaltyTransaction4,royaltyTransaction5,royaltyTransaction6,royaltyTransaction7]);
 console.log(signedTxns)
 let blobs = signedTxns.map((el,index)=>{
   if(index==0){
