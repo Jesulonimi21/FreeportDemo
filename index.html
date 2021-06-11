@@ -3,6 +3,7 @@
         <title>Freeport Demp</title>
         <script src="https://unpkg.com/algosdk@latest"></script>
         <script src="./buffer.js"></script>
+        <script src="./myalgo.js"></script>
        
         <style>
             .algoLoader {
@@ -203,6 +204,12 @@
   
 // console.log(algosdk.AlgoSigner)
     let button = document.getElementById("acquireNft");
+
+    // console.log(myAlgoConnect)
+    // console.log(myalgo);
+    var myalgoConnect = new MyAlgoConnect();
+    
+
     button.addEventListener("click",async function(){
         console.log("Clicked");
         var x = document.getElementsByTagName("body");
@@ -233,8 +240,11 @@
 // let rawSignedTxn = algosdk.signLogicSigTransactionObject(xtxn, lsig)
 if (typeof AlgoSigner !== 'undefined') {
     console.log('AlgoSigner is installed.');
-    await AlgoSigner.connect();
-    addresses = await AlgoSigner.accounts({ ledger: 'TestNet' });
+    // await AlgoSigner.connect();
+    // addresses = await AlgoSigner.accounts({ ledger: 'TestNet' });
+    addresses = await myalgoConnect.connect()
+    console.log(addresses)
+ 
     addressToUse = prompt("Enter desired Address");
     recoveredAccount2.addr=addressToUse;
     var addressFound = 0;
