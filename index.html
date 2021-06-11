@@ -278,7 +278,7 @@ console.log(signedOptTxn);
 infoP.innerText="Opting Users Address to NFT"
 let optSentTx=await client.sendRawTransaction(signedOptTxn.blob).do();
 console.log("sent opt in transaction with txId: "+ optSentTx.txId);
-return;
+
 infoP.innerText="Users Address Opted In to NFT"
 //transaction 1 to send asset
 var assetSendTxn = await  sendAsset(16054095,asssetCreatorAddress,recoveredAccount2.addr,1,client);
@@ -299,41 +299,42 @@ let txgroup = algosdk.assignGroupID(txns);
  
 let signedTxn0 = algosdk.signLogicSigTransactionObject(assetSendTxn, lsig)
 
-let signedTxns = await AlgoSigner.signTxn([
-{
-    txn:AlgoSigner.encoding.msgpackToBase64(assetSendTxn.toByte()),
-    signers:[]
-  },
-  {
-    txn:AlgoSigner.encoding.msgpackToBase64(epochTrans.toByte())
-  },
-  {
-    txn:AlgoSigner.encoding.msgpackToBase64(appCallTxn.toByte())
-  },
-  {
-    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction1.toByte())
-  },
-  {
-    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction2.toByte())
-  },
-  {
-    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction3.toByte())
-  },
-  {
-    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction4.toByte())
-  },
-  {
-    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction5.toByte())
-  },
-  {
-    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction6.toByte())
-  },
-  {
-    txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction7.toByte())
-  },
-]);
-
-
+// let signedTxns = await AlgoSigner.signTxn([
+// {
+//     txn:AlgoSigner.encoding.msgpackToBase64(assetSendTxn.toByte()),
+//     signers:[]
+//   },
+//   {
+//     txn:AlgoSigner.encoding.msgpackToBase64(epochTrans.toByte())
+//   },
+//   {
+//     txn:AlgoSigner.encoding.msgpackToBase64(appCallTxn.toByte())
+//   },
+//   {
+//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction1.toByte())
+//   },
+//   {
+//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction2.toByte())
+//   },
+//   {
+//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction3.toByte())
+//   },
+//   {
+//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction4.toByte())
+//   },
+//   {
+//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction5.toByte())
+//   },
+//   {
+//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction6.toByte())
+//   },
+//   {
+//     txn:AlgoSigner.encoding.msgpackToBase64(royaltyTransaction7.toByte())
+//   },
+// ]);
+let appCallTxnSigned = await  myalgoConnect.signTransaction(appCallTxn);
+console.log("AppcALLtXN : ",appCallTxnSigned);
+let signedTxns = [epochTrans, appCallTxn, royaltyTransaction1,royaltyTransaction2,royaltyTransaction3,royaltyTransaction4,royaltyTransaction5,royaltyTransaction6,royaltyTransaction7]
 console.log(signedTxns)
 let blobs = signedTxns.map((el,index)=>{
   if(index!=0){
@@ -423,8 +424,17 @@ if(txTest.txId!=null&&txTest.txId!=undefined){
     }
 
     async function makeApplicationCallTransaction(sender,appId,appArgs){
-        let params = await client.getTransactionParams().do();
-        let txn = algosdk.makeApplicationNoOpTxn(sender, params, appId, appArgs)
+        // let params = await client.getTransactionParams().do();
+        // let txn = algosdk.makeApplicationNoOpTxn(sender, params, appId, appArgs)
+        let txn = {
+            type: "appl",
+            appOnComplete: 0,
+            from: sender,
+            appIndex: appId,
+            fee: 1000,
+            flatFee: true,
+            ...params
+  };
         return txn;
     }
 
