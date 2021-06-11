@@ -337,9 +337,9 @@ let signedTxns = await myalgoConnect.signTransaction([epochTrans, appCallTxn, ro
 console.log(signedTxns)
 let blobs = signedTxns.map((el,index)=>{
   if(index==0){
-        signedTxn0.blob
+     return   signedTxn0.blob
   }else{
-    el.blob
+    return    el.blob
   }
 
 })
