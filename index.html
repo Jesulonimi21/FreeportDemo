@@ -337,13 +337,11 @@ let signedTxns = await myalgoConnect.signTransaction([epochTrans, appCallTxn, ro
 console.log(signedTxns)
 let blobs = signedTxns.map((el,index)=>{
   if(index==0){
-     return   signedTxn0.blob
-  }else{
     return    el.blob
   }
 
 })
-let signedTest = [...blobs];
+let signedTest = [signedTxn0.blob,...blobs];
 console.log(signedTest)
 let txTest=(await client.sendRawTransaction(signedTest).do());
 console.log("Transaction : " + txTest.txId);
