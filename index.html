@@ -202,7 +202,7 @@
     var addresses = []
     var addressToUse;
     let  params={};
-// console.log(algosdk.AlgoSigner)
+
     let button = document.getElementById("acquireNft");
 
     // console.log(myAlgoConnect)
@@ -341,7 +341,7 @@
               }
             console.log("sent opt in transaction with txId: "+ optSentTx.txId);
 
-            infoP.innerText="Users Address Opted In to NFT"
+            infoP.innerText="User's Wallet Address Opted In to NFT"
             //transaction 1 to send asset
             var assetSendTxn =   sendAsset(16174600,asssetCreatorAddress,recoveredAccount2.addr,1,client);
             // transaction 2 to send  30% of the asset
