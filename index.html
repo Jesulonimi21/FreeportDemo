@@ -187,8 +187,8 @@
     var artist5Address = "EMMEIOWLZPMUCXSLGB5QOR33HCQZAQT6KSRGCXHBO54W7LNLQCJXSGJ4IQ";
     var artist6Address = "UNH443RNFL4NWFCP5AI3N34C6IK6SWDEPZRLFKXGWYTXBZ5BTLJJLGWLRQ";
     var artist7Address = "QPNWTRS3FLRUICYYLVPQV7QZIJPBNM2EV6S5BF6JOFQL7DGCLU5HKQSUK4";
-    var epochClawedBackAddress = "X32FAIJWWS5N2EWOZBGWSSUFWBR6LKIM5SZOWL3DTSYIMTI6BSRS4NDT6M"
-    var epochBase64Address = "AyADkE4GhevaBzMAIDIDEjMBIDIDEhAzAiAyAxIQMwAJMgMSEDMBCTIDEhAzAgkyAxIQMwAVMgMSEDMBFTIDEhAzAhUyAxIQMQEiDhAzAhAjEhAzAhgkEhA=";
+    var epochClawedBackAddress = "RBCUV3YYWW4ABJ5KQSTVMSMQIUYDNOJSC2HHO352M2VLH54SPUPVNVKWMI"
+    var epochBase64Address = "AyADkE4GiZzbBzMAIDIDEjMBIDIDEhAzAiAyAxIQMwAJMgMSEDMBCTIDEhAzAgkyAxIQMwAVMgMSEDMBFTIDEhAzAhUyAxIQMQEiDhAzAhAjEhAzAhgkEhA=";
     var artistAmount = 100000;
     var creatorAmount = 300000;
     const token = { 'X-API-Key':'ADRySlL0NK5trzqZGAE3q1xxIqlQdSfk1nbHxTNe'};
@@ -270,7 +270,7 @@
         body.append(parentDiv)
 
 
-    let noOfEditionsBought = await printCreatedApp(client,"5CJEIMOPJIKJKSFGIAHNF7NTNUFKZLQQETOWHXEA3AM335B5NQKYHSFVEY",16168325);
+    let noOfEditionsBought = await printCreatedApp(client,"5CJEIMOPJIKJKSFGIAHNF7NTNUFKZLQQETOWHXEA3AM335B5NQKYHSFVEY",16174601);
     if(noOfEditionsBought==-1){
       return;
     }
@@ -326,7 +326,7 @@
 
                 }
             
-            let optInTxn =  optInAddress(16168324,recoveredAccount2.addr);
+            let optInTxn =  optInAddress(16174600,recoveredAccount2.addr);
             myalgoConnect.signTransaction(optInTxn).then(async(signedOptTxn)=>{
             console.log(signedOptTxn);
             infoP.innerText="Opting Users Address to NFT"
@@ -343,11 +343,11 @@
 
             infoP.innerText="Users Address Opted In to NFT"
             //transaction 1 to send asset
-            var assetSendTxn =   sendAsset(16168324,asssetCreatorAddress,recoveredAccount2.addr,1,client);
+            var assetSendTxn =   sendAsset(16174600,asssetCreatorAddress,recoveredAccount2.addr,1,client);
             // transaction 2 to send  30% of the asset
             var epochTrans =  sendFunds(recoveredAccount2,asssetCreatorAddress,creatorAmount,client)
             //transaction 3 to make the application call
-            var appCallTxn =  makeApplicationCallTransaction(recoveredAccount2.addr,16168325,[])
+            var appCallTxn =  makeApplicationCallTransaction(recoveredAccount2.addr,16174601,[])
             // transaction 4 to 10 to send the funds to the remaining ten addresses
             var royaltyTransaction1 =  sendFunds(recoveredAccount2,artist1Address,artistAmount);
             var royaltyTransaction2 =  sendFunds(recoveredAccount2,artist2Address,artistAmount);
