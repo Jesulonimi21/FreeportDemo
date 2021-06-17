@@ -323,27 +323,27 @@ const printAssetHolding = async function (algodclient, account, assetid) {
       
         let assetHolding ={} 
         try{ 
-          assetHolding =  await printAssetHolding(client,"7YKKKRG7DLRMJ77STKS52INTDJAQK3BEA6IP2BFMSZXR53WI2UXCXLNDZY",allAssets[0]);
+          assetHolding =  await printAssetHolding(client,asssetCreatorAddress,allAssets[0]);
           if(assetHolding["amount"]==1){
               assetId = allAssets[0]
               assetName = assetNames[0];
           }else{
-            assetHolding =  await printAssetHolding(client,"7YKKKRG7DLRMJ77STKS52INTDJAQK3BEA6IP2BFMSZXR53WI2UXCXLNDZY",allAssets[1]);
+            assetHolding =  await printAssetHolding(client,asssetCreatorAddress,allAssets[1]);
             if(assetHolding["amount"]==1){
               assetId = allAssets[1]
               assetName = assetNames[1]
             }else{
-              assetHolding =  await printAssetHolding(client,"7YKKKRG7DLRMJ77STKS52INTDJAQK3BEA6IP2BFMSZXR53WI2UXCXLNDZY",allAssets[2]);
+              assetHolding =  await printAssetHolding(client,asssetCreatorAddress,allAssets[2]);
               if(assetHolding["amount"]==1){
               assetId = allAssets[2]
               assetName = assetNames[2]
             }else{
-              assetHolding =  await printAssetHolding(client,"7YKKKRG7DLRMJ77STKS52INTDJAQK3BEA6IP2BFMSZXR53WI2UXCXLNDZY",allAssets[3]);
+              assetHolding =  await printAssetHolding(client,asssetCreatorAddress,allAssets[3]);
               if(assetHolding["amount"]==1){
               assetId = allAssets[3]
               assetName = assetNames[3];
             }else{
-              assetHolding =  await printAssetHolding(client,"7YKKKRG7DLRMJ77STKS52INTDJAQK3BEA6IP2BFMSZXR53WI2UXCXLNDZY",allAssets[4]);
+              assetHolding =  await printAssetHolding(client,asssetCreatorAddress,allAssets[4]);
               if(assetHolding["amount"]==1){
               assetId = allAssets[4];
               assetName = assetNames[4]
@@ -424,11 +424,7 @@ const printAssetHolding = async function (algodclient, account, assetid) {
                     body.removeChild(parentDiv);
                     return;
                 }
-                try{
-
-                }catch(error){
-
-                }
+             
             
             let optInTxn =  optInAddress(assetId,recoveredAccount2.addr);
             myalgoConnect.signTransaction(optInTxn).then(async(signedOptTxn)=>{
