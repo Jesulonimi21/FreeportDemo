@@ -179,7 +179,7 @@
     " weird catch curve isolate plug innocent skin grunt" +
     " bounce clown mercy hole eagle soul chunk type absorb trim");
     var recoveredAccount2={addr:""}
-    var asssetCreatorAddress = "5CJEIMOPJIKJKSFGIAHNF7NTNUFKZLQQETOWHXEA3AM335B5NQKYHSFVEY"
+    var asssetCreatorAddress = "AGP3QJRPRIX52M6HCPWYZ266QQRMD3JPBIS5NWJE7GSERAWBX4DFGYQIO4"
     var artist1Address= "YGCKHAG4H3WDUQSAY5J4MK5ZIWLGIF7W6ZYO5EZY3OGZJB5FWGDNBX7BUA";
     var artist2Address = "IKEPBSW7RSPN4TXYC3AV6FOOGZ6PJLTJKEB2PVCTPSRFNB3CANZ5JJRZPY";
     var artist3Address= "2FSBHE3XAXJHBFFUABPPBBU3ZL4PQAHI6BB3KTHJKL5IZCC7BG4LR6GRT4";
@@ -187,10 +187,11 @@
     var artist5Address = "EMMEIOWLZPMUCXSLGB5QOR33HCQZAQT6KSRGCXHBO54W7LNLQCJXSGJ4IQ";
     var artist6Address = "UNH443RNFL4NWFCP5AI3N34C6IK6SWDEPZRLFKXGWYTXBZ5BTLJJLGWLRQ";
     var artist7Address = "QPNWTRS3FLRUICYYLVPQV7QZIJPBNM2EV6S5BF6JOFQL7DGCLU5HKQSUK4";
-    var epochClawedBackAddress = "RBCUV3YYWW4ABJ5KQSTVMSMQIUYDNOJSC2HHO352M2VLH54SPUPVNVKWMI"
-    var epochBase64Address = "AyADkE4GiZzbBzMAIDIDEjMBIDIDEhAzAiAyAxIQMwAJMgMSEDMBCTIDEhAzAgkyAxIQMwAVMgMSEDMBFTIDEhAzAhUyAxIQMQEiDhAzAhAjEhAzAhgkEhA=";
-    var artistAmount = 100000;
-    var creatorAmount = 300000;
+    var epochClawedBackAddress = "2ZORRJ2BOE7W2WPOXWEFGCKHVYCVM3OVYGCL5I755VLREAFJ3JGVH3C2XM"
+    var epochBase64Address = "AyADkE4GyN/9BzMAIDIDEjMBIDIDEhAzAiAyAxIQMwAJMgMSEDMBCTIDEhAzAgkyAxIQMwAVMgMSEDMBFTIDEhAzAhUyAxIQMQEiDhAzAhAjEhAzAhgkEhA=";
+    var actualAssetPrice = 1000000
+    var artistAmount = ((10/100)*actualAssetPrice);
+    var creatorAmount = ((30/100)*actualAssetPrice);
     const token = { 'X-API-Key':'ADRySlL0NK5trzqZGAE3q1xxIqlQdSfk1nbHxTNe'};
     const server = "https://testnet-algorand.api.purestake.io/ps2";
     const port = '';
@@ -202,7 +203,11 @@
     var addresses = []
     var addressToUse;
     let  params={};
-
+    let allAssets = [16740295,16740297,16740298,16740299,16740300];
+    let assetNames = ["Epoch 1/5", "Epoch 2/5","Epoch 3/5","Epoch 4/5","Epoch 5/5"];
+    let assetName = "";
+    let assetId = -1;
+    let globalAppId = 16740296;
     let button = document.getElementById("acquireNft");
 
     // console.log(myAlgoConnect)
@@ -241,6 +246,51 @@
     return retVal;
 };
 
+
+const printCreatedAsset = async function (algodclient, account, assetid) {
+    let accountInfo = await algodclient.accountInformation(account).do();
+    for (idx = 0; idx < accountInfo['created-assets'].length; idx++) {
+        let scrutinizedAsset = accountInfo['created-assets'][idx];
+        if (scrutinizedAsset['index'] == assetid) {
+            console.log("AssetID = " + scrutinizedAsset['index']);
+            let myparms = JSON.stringify(scrutinizedAsset['params'], undefined, 2);
+            console.log("parms = " + myparms);
+            break;
+        }
+    }
+};
+
+const printAssetHolding = async function (algodclient, account, assetid) {
+    // note: if you have an indexer instance available it is easier to just use this
+    //     let accountInfo = await indexerClient.searchAccounts()
+    //    .assetID(assetIndex).do();
+    // and in the loop below use this to extract the asset for a particular account
+    // accountInfo['accounts'][idx][account]);
+    return new Promise(async(resolve,reject)=>{
+
+      try{
+        let accountInfo = await algodclient.accountInformation(account).do();
+    for (idx = 0; idx < accountInfo['assets'].length; idx++) {
+        let scrutinizedAsset = accountInfo['assets'][idx];
+        if (scrutinizedAsset['asset-id'] == assetid) {
+            let myassetholding = JSON.stringify(scrutinizedAsset, undefined, 2);
+
+            console.log("assetholdinginfo = " + myassetholding);
+            resolve(JSON.parse(myassetholding));
+            break;
+        }
+    }
+      }catch(error){
+        reject(error);
+        console.error(error);
+        body.removeChild(parentDiv);
+      }
+
+    
+    })
+  
+};
+       
     button.addEventListener("click",async function(){
         console.log("Clicked");
         var x = document.getElementsByTagName("body");
@@ -270,26 +320,81 @@
         body.append(parentDiv)
 
 
-    let noOfEditionsBought = await printCreatedApp(client,"5CJEIMOPJIKJKSFGIAHNF7NTNUFKZLQQETOWHXEA3AM335B5NQKYHSFVEY",16174601);
-    if(noOfEditionsBought==-1){
-      return;
-    }
-      console.log(noOfEditionsBought);
+      
+        let assetHolding ={} 
+        try{ 
+          assetHolding =  await printAssetHolding(client,"7YKKKRG7DLRMJ77STKS52INTDJAQK3BEA6IP2BFMSZXR53WI2UXCXLNDZY",allAssets[0]);
+          if(assetHolding["amount"]==1){
+              assetId = allAssets[0]
+              assetName = assetNames[0];
+          }else{
+            assetHolding =  await printAssetHolding(client,"7YKKKRG7DLRMJ77STKS52INTDJAQK3BEA6IP2BFMSZXR53WI2UXCXLNDZY",allAssets[1]);
+            if(assetHolding["amount"]==1){
+              assetId = allAssets[1]
+              assetName = assetNames[1]
+            }else{
+              assetHolding =  await printAssetHolding(client,"7YKKKRG7DLRMJ77STKS52INTDJAQK3BEA6IP2BFMSZXR53WI2UXCXLNDZY",allAssets[2]);
+              if(assetHolding["amount"]==1){
+              assetId = allAssets[2]
+              assetName = assetNames[2]
+            }else{
+              assetHolding =  await printAssetHolding(client,"7YKKKRG7DLRMJ77STKS52INTDJAQK3BEA6IP2BFMSZXR53WI2UXCXLNDZY",allAssets[3]);
+              if(assetHolding["amount"]==1){
+              assetId = allAssets[3]
+              assetName = assetNames[3];
+            }else{
+              assetHolding =  await printAssetHolding(client,"7YKKKRG7DLRMJ77STKS52INTDJAQK3BEA6IP2BFMSZXR53WI2UXCXLNDZY",allAssets[4]);
+              if(assetHolding["amount"]==1){
+              assetId = allAssets[4];
+              assetName = assetNames[4]
+            }else{
+              assetId=-1;
+            }
+            }
+            }
+            }
+         
 
-      if(noOfEditionsBought>=5){
+          }
+          console.log(assetHolding);
+        }catch(error){
+          alert(error);
+          return;
+        }
+
+      
+
+      if(assetId==-1){
         alert("All 5 editions have been sold already");
         body.removeChild(parentDiv);
         return;
       }else{
-        infoP.innerText=`Edition ${noOfEditionsBought+1} of Epoch NFT acquisition in progress`;
+        infoP.innerText=`Edition ${assetName} NFT acquisition in progress`;
       }
 
       myalgoConnect.connect().then(async(addresses)=>{
         if(addresses.length>1){
-      addressToUse = prompt("Enter desired Address");
-    }else{
-      addressToUse = addresses[0].address
-    }
+      addressToUse = prompt("Enter My Algo wallet desired Address");
+      }else{
+        addressToUse = addresses[0].address
+      }
+
+
+      try{
+          let account_info = (await client.accountInformation(addressToUse).do());
+          if(account_info.amount<2000000){
+            console.log(account_info);
+          alert("You do not have enough funds to purchase NFT");
+          return;
+          };
+         
+        } catch(error){
+          console.error(error);
+          alert(error);
+          body.removeChild(parentDiv);
+          return;
+        } 
+
   
     recoveredAccount2.addr=addressToUse;
     var addressFound = 0;
@@ -304,8 +409,7 @@
     if(addressFound == 0){
         alert("Cant find address, refresh to continue")  
      body.removeChild(parentDiv);
-        return;
-        
+        return;   
     }
         
      
@@ -326,7 +430,7 @@
 
                 }
             
-            let optInTxn =  optInAddress(16174600,recoveredAccount2.addr);
+            let optInTxn =  optInAddress(assetId,recoveredAccount2.addr);
             myalgoConnect.signTransaction(optInTxn).then(async(signedOptTxn)=>{
             console.log(signedOptTxn);
             infoP.innerText="Opting Users Address to NFT"
@@ -343,11 +447,11 @@
 
             infoP.innerText="User's Wallet Address Opted In to NFT"
             //transaction 1 to send asset
-            var assetSendTxn =   sendAsset(16174600,asssetCreatorAddress,recoveredAccount2.addr,1,client);
+            var assetSendTxn =   sendAsset(assetId,asssetCreatorAddress,recoveredAccount2.addr,1,client);
             // transaction 2 to send  30% of the asset
             var epochTrans =  sendFunds(recoveredAccount2,asssetCreatorAddress,creatorAmount,client)
             //transaction 3 to make the application call
-            var appCallTxn =  makeApplicationCallTransaction(recoveredAccount2.addr,16174601,[])
+            var appCallTxn =  makeApplicationCallTransaction(recoveredAccount2.addr,globalAppId,[])
             // transaction 4 to 10 to send the funds to the remaining ten addresses
             var royaltyTransaction1 =  sendFunds(recoveredAccount2,artist1Address,artistAmount);
             var royaltyTransaction2 =  sendFunds(recoveredAccount2,artist2Address,artistAmount);
